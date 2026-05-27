@@ -1,10 +1,24 @@
 
 <style>
+:root {
+  --color-text-primary: #24292e;
+  --color-text-secondary: #586069;
+  --color-text-tertiary: #6a737d;
+  --color-background-primary: #ffffff;
+  --color-background-secondary: #f6f8fa;
+  --color-border-tertiary: #e1e4e8;
+  --color-border-secondary: #d1d5da;
+  --font-sans: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+  --font-mono: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, monospace;
+  --border-radius-md: 6px;
+  --border-radius-lg: 12px;
+}
+
 * { box-sizing: border-box; margin: 0; padding: 0; }
 .guide { display: flex; gap: 0; min-height: 600px; }
 .sidebar { width: 200px; flex-shrink: 0; border-right: 0.5px solid var(--color-border-tertiary); padding: 1rem 0; position: sticky; top: 0; align-self: flex-start; }
 .sidebar-title { font-size: 11px; font-weight: 500; color: var(--color-text-tertiary); text-transform: uppercase; letter-spacing: 0.08em; padding: 0 1rem 0.75rem; font-family: var(--font-sans); }
-.nav-item { display: flex; align-items: center; gap: 8px; padding: 6px 1rem; font-size: 13px; color: var(--color-text-secondary); cursor: pointer; border-left: 2px solid transparent; transition: all 0.15s; font-family: var(--font-sans); }
+.nav-item { display: flex; align-items: center; gap: 8px; padding: 6px 1rem; font-size: 13px; color: var(--color-text-secondary); cursor: pointer; border-left: 2px solid transparent; transition: all 0.2s; }
 .nav-item:hover { color: var(--color-text-primary); background: var(--color-background-secondary); }
 .nav-item.active { color: var(--color-text-primary); border-left-color: #7F77DD; background: var(--color-background-secondary); font-weight: 500; }
 .nav-item i { font-size: 15px; }
@@ -24,7 +38,7 @@
 .prompt { color: #7F77DD; font-size: 13px; user-select: none; margin-top: 1px; font-family: var(--font-mono); }
 .cmd-text { font-size: 13px; color: var(--color-text-primary); flex: 1; word-break: break-all; font-family: var(--font-mono); }
 .cmd-comment { font-size: 12px; color: var(--color-text-tertiary); margin-top: 4px; padding-left: 18px; font-family: var(--font-sans); font-style: italic; }
-.copy-btn { position: absolute; top: 8px; right: 8px; background: none; border: 0.5px solid var(--color-border-secondary); border-radius: 4px; padding: 3px 7px; font-size: 11px; color: var(--color-text-secondary); cursor: pointer; font-family: var(--font-sans); opacity: 0; transition: opacity 0.15s; }
+.copy-btn { position: absolute; top: 8px; right: 8px; background: none; border: 0.5px solid var(--color-border-secondary); border-radius: 4px; padding: 3px 7px; font-size: 11px; color: var(--color-text-secondary); cursor: pointer; opacity: 0; transition: all 0.2s; }
 .cmd-block:hover .copy-btn { opacity: 1; }
 .copy-btn:hover { background: var(--color-background-primary); }
 .tip-box { background: #EEEDFE; border-left: 3px solid #7F77DD; border-radius: 0 var(--border-radius-md) var(--border-radius-md) 0; padding: 10px 14px; margin-bottom: 12px; }
@@ -34,7 +48,7 @@
 .success-box { background: #EAF3DE; border-left: 3px solid #3B6D11; border-radius: 0 var(--border-radius-md) var(--border-radius-md) 0; padding: 10px 14px; margin-bottom: 12px; }
 .success-box p { font-size: 13px; color: #27500A; line-height: 1.5; font-family: var(--font-sans); }
 .cmd-table { width: 100%; border-collapse: collapse; margin-bottom: 1rem; }
-.cmd-table th { font-size: 11px; font-weight: 500; color: var(--color-text-tertiary); text-transform: uppercase; letter-spacing: 0.06em; padding: 6px 12px; text-align: left; border-bottom: 0.5px solid var(--color-border-tertiary); font-family: var(--font-sans); }
+.cmd-table th { font-size: 11px; font-weight: 500; color: var(--color-text-tertiary); text-transform: uppercase; letter-spacing: 0.06em; padding: 6px 12px; text-align: left; border-bottom: 0.5px solid var(--color-border-tertiary); }
 .cmd-table td { padding: 7px 12px; border-bottom: 0.5px solid var(--color-border-tertiary); vertical-align: top; }
 .cmd-table td:first-child { font-size: 12px; color: #534AB7; white-space: nowrap; font-family: var(--font-mono); }
 .cmd-table td:last-child { font-size: 12px; color: var(--color-text-secondary); font-family: var(--font-sans); line-height: 1.5; }
@@ -48,7 +62,7 @@
 .divider { border: none; border-top: 0.5px solid var(--color-border-tertiary); margin: 1.25rem 0; }
 
 .flow-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 12px; margin-bottom: 1.5rem; }
-.flow-card { background: var(--color-background-primary); border: 0.5px solid var(--color-border-tertiary); border-radius: var(--border-radius-lg); padding: 1rem 1.25rem; cursor: pointer; transition: border-color 0.15s; }
+.flow-card { background: var(--color-background-primary); border: 0.5px solid var(--color-border-tertiary); border-radius: var(--border-radius-lg); padding: 1rem 1.25rem; cursor: pointer; transition: all 0.2s; }
 .flow-card:hover { border-color: var(--color-border-secondary); }
 .flow-card.selected { border: 2px solid #7F77DD; }
 .flow-card-icon { font-size: 22px; color: #7F77DD; margin-bottom: 8px; }
@@ -61,13 +75,23 @@
 .steps-track { display: flex; flex-direction: column; gap: 0; margin-bottom: 1.5rem; }
 .track-step { display: flex; gap: 12px; }
 .track-left { display: flex; flex-direction: column; align-items: center; width: 28px; flex-shrink: 0; }
-.track-num { width: 26px; height: 26px; border-radius: 50%; background: #EEEDFE; color: #3C3489; font-size: 12px; font-weight: 500; display: flex; align-items: center; justify-content: center; font-family: var(--font-sans); flex-shrink: 0; }
+.track-num { width: 26px; height: 26px; border-radius: 50%; background: #EEEDFE; color: #3C3489; font-size: 12px; font-weight: 500; display: flex; align-items: center; justify-content: center; font-family: var(--font-sans); }
 .track-line { width: 1px; background: var(--color-border-tertiary); flex: 1; min-height: 12px; }
 .track-step:last-child .track-line { display: none; }
 .track-content { padding-bottom: 16px; flex: 1; padding-top: 2px; }
 .track-title { font-size: 13px; font-weight: 500; color: var(--color-text-primary); font-family: var(--font-sans); margin-bottom: 6px; }
 
 @media (prefers-color-scheme: dark) {
+  :root {
+    --color-text-primary: #e1e4e8;
+    --color-text-secondary: #d1d5da;
+    --color-text-tertiary: #959da5;
+    --color-background-primary: #0d1117;
+    --color-background-secondary: #161b22;
+    --color-border-tertiary: #30363d;
+    --color-border-secondary: #21262d;
+  }
+  
   .tip-box { background: #26215C; }
   .tip-box p { color: #CECBF6; }
   .warn-box { background: #412402; }
@@ -216,7 +240,7 @@
           <div class="cmd-line"><span class="prompt">%</span><span class="cmd-text">ssh -T git@github.com</span></div>
           <div class="cmd-comment">Testa a conexão SSH com o GitHub</div>
         </div>
-        <div class="success-box"><p>Resposta esperada: <strong>Hi usuario! You've successfully authenticated, but GitHub does not provide shell access.</strong> — isso é normal e significa que funcionou.</p></div>
+        <div class="success-box"><p>Resposta esperada: <strong>Hi usuario! You've successfully authenticated, but GitHub does not provide shell access.</strong> — isso é normal e significa que funcionou!</p></div>
       </div>
     </div>
 
@@ -248,7 +272,7 @@
       <!-- FLUXO A -->
       <div class="flow-detail active" id="flow-a">
         <div class="tip-box"><p><strong>Quando usar:</strong> sempre que for começar um projeto do zero. É o fluxo mais limpo pois evita conflitos entre arquivos locais e remotos.</p></div>
-        <div class="warn-box"><p><strong>Atenção:</strong> ao criar o repositório no GitHub, <strong>não marque</strong> nenhuma opção de README, .gitignore ou licença — deixe o repositório completamente vazio.</p></div>
+        <div class="warn-box"><p><strong>Atenção:</strong> ao criar o repositório no GitHub, <strong>não marque</strong> nenhuma opção de README, .gitignore ou licença — deixe o repositório totalmente vazio.</p></div>
 
         <div class="steps-track">
           <div class="track-step">
@@ -300,13 +324,13 @@
             </div>
           </div>
         </div>
-        <div class="success-box"><p>Projeto publicado! A partir de agora o ciclo é sempre: <code style="font-size:11px">git add .</code> → <code style="font-size:11px">git commit -m "msg"</code> → <code style="font-size:11px">git push</code>.</p></div>
+        <div class="success-box"><p>Projeto publicado! A partir de agora o ciclo é sempre: <code style="font-size:11px">git add .</code> → <code style="font-size:11px">git commit -m "msg"</code> → <code style="font-size:11px">git push</code></p></div>
       </div>
 
       <!-- FLUXO B -->
       <div class="flow-detail" id="flow-b">
         <div class="tip-box"><p><strong>Quando usar:</strong> quando o projeto já existe na sua máquina e você quer versioná-lo no GitHub agora.</p></div>
-        <div class="warn-box"><p><strong>Atenção:</strong> ao criar o repositório no GitHub, <strong>não marque</strong> nenhuma opção de README, .gitignore ou licença — repositório completamente vazio evita conflitos.</p></div>
+        <div class="warn-box"><p><strong>Atenção:</strong> ao criar o repositório no GitHub, <strong>não marque</strong> nenhuma opção de README, .gitignore ou licença — repositório completamente vazio.</p></div>
 
         <div class="steps-track">
           <div class="track-step">
@@ -361,7 +385,7 @@
             </div>
           </div>
         </div>
-        <div class="success-box"><p>Projeto publicado! Nas próximas vezes: <code style="font-size:11px">git add .</code> → <code style="font-size:11px">git commit -m "msg"</code> → <code style="font-size:11px">git push</code>.</p></div>
+        <div class="success-box"><p>Projeto publicado! Nas próximas vezes: <code style="font-size:11px">git add .</code> → <code style="font-size:11px">git commit -m "msg"</code> → <code style="font-size:11px">git push</code></p></div>
       </div>
 
       <!-- FLUXO C -->
@@ -421,7 +445,7 @@
             </div>
           </div>
         </div>
-        <div class="success-box"><p>Projeto criado e publicado sem abrir o navegador! Nas próximas vezes: <code style="font-size:11px">git add .</code> → <code style="font-size:11px">git commit -m "msg"</code> → <code style="font-size:11px">git push</code>.</p></div>
+        <div class="success-box"><p>Projeto criado e publicado sem abrir o navegador! Nas próximas vezes: <code style="font-size:11px">git add .</code> → <code style="font-size:11px">git commit -m "msg"</code> → <code style="font-size:11px">git push</code></p></div>
       </div>
 
       <hr class="divider">
@@ -446,13 +470,13 @@
         <h2>Fundamentos do Git</h2>
         <p>O ciclo básico de trabalho: adicionar arquivos, commitar e repetir.</p>
       </div>
-      <div class="tip-box"><p><strong>Conceito:</strong> Git rastreia alterações em 3 áreas — <em>working directory</em> (seus arquivos), <em>staging area</em> (o que vai no próximo commit) e <em>repositório</em> (o histórico salvo).</p></div>
+      <div class="tip-box"><p><strong>Conceito:</strong> Git rastreia alterações em 3 áreas — <em>working directory</em> (seus arquivos), <em>staging area</em> (o que vai no próximo commit) e <em>repository</em> (histórico confirmado).</p></div>
       <div class="step-block">
         <div class="step-label">Status e diff</div>
         <div class="step-title">Verificar o estado do repositório</div>
-        <div class="cmd-block"><button class="copy-btn" onclick="copyCmd(this)">copiar</button><div class="cmd-line"><span class="prompt">%</span><span class="cmd-text">git status</span></div><div class="cmd-comment">Mostra arquivos modificados, novos e em staging</div></div>
-        <div class="cmd-block"><button class="copy-btn" onclick="copyCmd(this)">copiar</button><div class="cmd-line"><span class="prompt">%</span><span class="cmd-text">git diff</span></div><div class="cmd-comment">Mostra mudanças não adicionadas ao stage</div></div>
-        <div class="cmd-block"><button class="copy-btn" onclick="copyCmd(this)">copiar</button><div class="cmd-line"><span class="prompt">%</span><span class="cmd-text">git diff --staged</span></div><div class="cmd-comment">Mostra mudanças já adicionadas ao stage</div></div>
+        <div class="cmd-block"><button class="copy-btn" onclick="copyCmd(this)">copiar</button><div class="cmd-line"><span class="prompt">%</span><span class="cmd-text">git status</span></div><div class="cmd-comment">Mostra arquivos modificados e staged</div></div>
+        <div class="cmd-block"><button class="copy-btn" onclick="copyCmd(this)">copiar</button><div class="cmd-line"><span class="prompt">%</span><span class="cmd-text">git diff</span></div><div class="cmd-comment">Mostra diferenças em arquivos modificados</div></div>
+        <div class="cmd-block"><button class="copy-btn" onclick="copyCmd(this)">copiar</button><div class="cmd-line"><span class="prompt">%</span><span class="cmd-text">git diff --staged</span></div><div class="cmd-comment">Mostra diferenças em arquivos staged</div></div>
       </div>
       <hr class="divider">
       <div class="step-block">
@@ -460,23 +484,23 @@
         <div class="step-title">Adicionar arquivos ao stage</div>
         <div class="cmd-block"><button class="copy-btn" onclick="copyCmd(this)">copiar</button><div class="cmd-line"><span class="prompt">%</span><span class="cmd-text">git add arquivo.txt</span></div><div class="cmd-comment">Adiciona um arquivo específico</div></div>
         <div class="cmd-block"><button class="copy-btn" onclick="copyCmd(this)">copiar</button><div class="cmd-line"><span class="prompt">%</span><span class="cmd-text">git add .</span></div><div class="cmd-comment">Adiciona todos os arquivos modificados</div></div>
-        <div class="cmd-block"><button class="copy-btn" onclick="copyCmd(this)">copiar</button><div class="cmd-line"><span class="prompt">%</span><span class="cmd-text">git add -p</span></div><div class="cmd-comment">Adiciona partes de arquivos interativamente</div></div>
-        <div class="cmd-block"><button class="copy-btn" onclick="copyCmd(this)">copiar</button><div class="cmd-line"><span class="prompt">%</span><span class="cmd-text">git rm --cached arquivo.txt</span></div><div class="cmd-comment">Remove arquivo do stage sem deletar do disco</div></div>
+        <div class="cmd-block"><button class="copy-btn" onclick="copyCmd(this)">copiar</button><div class="cmd-line"><span class="prompt">%</span><span class="cmd-text">git add -p</span></div><div class="cmd-comment">Adiciona em partes (interativo)</div></div>
+        <div class="cmd-block"><button class="copy-btn" onclick="copyCmd(this)">copiar</button><div class="cmd-line"><span class="prompt">%</span><span class="cmd-text">git rm --cached arquivo.txt</span></div><div class="cmd-comment">Remove arquivo do stage (mantém local)</div></div>
       </div>
       <hr class="divider">
       <div class="step-block">
         <div class="step-label">Commit</div>
         <div class="step-title">Salvar alterações no histórico</div>
-        <div class="cmd-block"><button class="copy-btn" onclick="copyCmd(this)">copiar</button><div class="cmd-line"><span class="prompt">%</span><span class="cmd-text">git commit -m "mensagem descritiva"</span></div><div class="cmd-comment">Commit com mensagem inline</div></div>
-        <div class="cmd-block"><button class="copy-btn" onclick="copyCmd(this)">copiar</button><div class="cmd-line"><span class="prompt">%</span><span class="cmd-text">git commit -am "mensagem"</span></div><div class="cmd-comment">Stage + commit de arquivos rastreados de uma vez</div></div>
-        <div class="cmd-block"><button class="copy-btn" onclick="copyCmd(this)">copiar</button><div class="cmd-line"><span class="prompt">%</span><span class="cmd-text">git commit --amend -m "nova mensagem"</span></div><div class="cmd-comment">Corrige a mensagem do último commit (não publicado)</div></div>
+        <div class="cmd-block"><button class="copy-btn" onclick="copyCmd(this)">copiar</button><div class="cmd-line"><span class="prompt">%</span><span class="cmd-text">git commit -m "mensagem descritiva"</span></div><div class="cmd-comment">Salva com mensagem em uma linha</div></div>
+        <div class="cmd-block"><button class="copy-btn" onclick="copyCmd(this)">copiar</button><div class="cmd-line"><span class="prompt">%</span><span class="cmd-text">git commit -am "mensagem"</span></div><div class="cmd-comment">Faz add e commit de um só comando</div></div>
+        <div class="cmd-block"><button class="copy-btn" onclick="copyCmd(this)">copiar</button><div class="cmd-line"><span class="prompt">%</span><span class="cmd-text">git commit --amend -m "nova mensagem"</span></div><div class="cmd-comment">Edita o último commit</div></div>
       </div>
       <hr class="divider">
       <div class="step-block">
         <div class="step-label">Ignorar arquivos</div>
         <div class="step-title">Criar .gitignore</div>
-        <div class="cmd-block"><button class="copy-btn" onclick="copyCmd(this)">copiar</button><div class="cmd-line"><span class="prompt">%</span><span class="cmd-text">echo ".DS_Store" >> .gitignore</span></div><div class="cmd-comment">Ignora arquivos de sistema do macOS</div></div>
-        <div class="cmd-block"><button class="copy-btn" onclick="copyCmd(this)">copiar</button><div class="cmd-line"><span class="prompt">%</span><span class="cmd-text">echo "node_modules/" >> .gitignore</span></div><div class="cmd-comment">Exemplo: ignora pasta de dependências Node.js</div></div>
+        <div class="cmd-block"><button class="copy-btn" onclick="copyCmd(this)">copiar</button><div class="cmd-line"><span class="prompt">%</span><span class="cmd-text">echo ".DS_Store" >> .gitignore</span></div><div class="cmd-comment">Ignora arquivos do macOS</div></div>
+        <div class="cmd-block"><button class="copy-btn" onclick="copyCmd(this)">copiar</button><div class="cmd-line"><span class="prompt">%</span><span class="cmd-text">echo "node_modules/" >> .gitignore</span></div><div class="cmd-comment">Ignora pasta de dependências</div></div>
         <div class="tip-box"><p>Use <strong>gitignore.io</strong> para gerar .gitignore adequado para sua stack.</p></div>
       </div>
     </div>
@@ -487,31 +511,31 @@
         <h2>Branches</h2>
         <p>Branches permitem trabalhar em funcionalidades separadas sem afetar o código principal.</p>
       </div>
-      <div class="tip-box"><p><strong>Fluxo recomendado:</strong> mantenha <code style="font-size:11px">main</code> sempre estável. Crie uma branch por funcionalidade, faça commits lá e depois mescle.</p></div>
+      <div class="tip-box"><p><strong>Fluxo recomendado:</strong> mantenha <code style="font-size:11px">main</code> sempre estável. Crie uma branch por funcionalidade, faça commits lá e depois mescle com main.</p></div>
       <div class="step-block">
         <div class="step-label">Criar e navegar</div>
         <div class="step-title">Gerenciar branches locais</div>
-        <div class="cmd-block"><button class="copy-btn" onclick="copyCmd(this)">copiar</button><div class="cmd-line"><span class="prompt">%</span><span class="cmd-text">git branch</span></div><div class="cmd-comment">Lista branches locais (atual marcada com *)</div></div>
-        <div class="cmd-block"><button class="copy-btn" onclick="copyCmd(this)">copiar</button><div class="cmd-line"><span class="prompt">%</span><span class="cmd-text">git branch -a</span></div><div class="cmd-comment">Lista branches locais e remotas</div></div>
-        <div class="cmd-block"><button class="copy-btn" onclick="copyCmd(this)">copiar</button><div class="cmd-line"><span class="prompt">%</span><span class="cmd-text">git switch -c nova-branch</span></div><div class="cmd-comment">Cria e já muda para a branch</div></div>
-        <div class="cmd-block"><button class="copy-btn" onclick="copyCmd(this)">copiar</button><div class="cmd-line"><span class="prompt">%</span><span class="cmd-text">git switch nome-da-branch</span></div><div class="cmd-comment">Muda para outra branch</div></div>
-        <div class="cmd-block"><button class="copy-btn" onclick="copyCmd(this)">copiar</button><div class="cmd-line"><span class="prompt">%</span><span class="cmd-text">git branch -d nome-da-branch</span></div><div class="cmd-comment">Deleta branch (seguro)</div></div>
-        <div class="cmd-block"><button class="copy-btn" onclick="copyCmd(this)">copiar</button><div class="cmd-line"><span class="prompt">%</span><span class="cmd-text">git branch -D nome-da-branch</span></div><div class="cmd-comment">Força deleção da branch</div></div>
+        <div class="cmd-block"><button class="copy-btn" onclick="copyCmd(this)">copiar</button><div class="cmd-line"><span class="prompt">%</span><span class="cmd-text">git branch</span></div><div class="cmd-comment">Lista branches locais</div></div>
+        <div class="cmd-block"><button class="copy-btn" onclick="copyCmd(this)">copiar</button><div class="cmd-line"><span class="prompt">%</span><span class="cmd-text">git branch -a</span></div><div class="cmd-comment">Lista todas as branches (local e remota)</div></div>
+        <div class="cmd-block"><button class="copy-btn" onclick="copyCmd(this)">copiar</button><div class="cmd-line"><span class="prompt">%</span><span class="cmd-text">git switch -c nova-branch</span></div><div class="cmd-comment">Cria e muda para nova branch</div></div>
+        <div class="cmd-block"><button class="copy-btn" onclick="copyCmd(this)">copiar</button><div class="cmd-line"><span class="prompt">%</span><span class="cmd-text">git switch nome-da-branch</span></div><div class="cmd-comment">Muda para uma branch existente</div></div>
+        <div class="cmd-block"><button class="copy-btn" onclick="copyCmd(this)">copiar</button><div class="cmd-line"><span class="prompt">%</span><span class="cmd-text">git branch -d nome-da-branch</span></div><div class="cmd-comment">Deleta branch (se já mergeada)</div></div>
+        <div class="cmd-block"><button class="copy-btn" onclick="copyCmd(this)">copiar</button><div class="cmd-line"><span class="prompt">%</span><span class="cmd-text">git branch -D nome-da-branch</span></div><div class="cmd-comment">Força a deleção da branch</div></div>
       </div>
       <hr class="divider">
       <div class="step-block">
         <div class="step-label">Merge e Rebase</div>
         <div class="step-title">Mesclar branches</div>
-        <div class="cmd-block"><button class="copy-btn" onclick="copyCmd(this)">copiar</button><div class="cmd-line"><span class="prompt">%</span><span class="cmd-text">git switch main && git merge nome-da-branch</span></div><div class="cmd-comment">Volta para main e mescla</div></div>
-        <div class="cmd-block"><button class="copy-btn" onclick="copyCmd(this)">copiar</button><div class="cmd-line"><span class="prompt">%</span><span class="cmd-text">git rebase main</span></div><div class="cmd-comment">Aplica commits da branch sobre o topo de main</div></div>
+        <div class="cmd-block"><button class="copy-btn" onclick="copyCmd(this)">copiar</button><div class="cmd-line"><span class="prompt">%</span><span class="cmd-text">git switch main && git merge nome-da-branch</span></div><div class="cmd-comment">Mescla branch na main</div></div>
+        <div class="cmd-block"><button class="copy-btn" onclick="copyCmd(this)">copiar</button><div class="cmd-line"><span class="prompt">%</span><span class="cmd-text">git rebase main</span></div><div class="cmd-comment">Reaplica commits em cima de main</div></div>
         <div class="warn-box"><p><strong>Atenção:</strong> nunca faça rebase em branches que outros colaboradores já usam.</p></div>
       </div>
       <hr class="divider">
       <div class="step-block">
         <div class="step-label">Stash</div>
         <div class="step-title">Guardar mudanças temporariamente</div>
-        <div class="cmd-block"><button class="copy-btn" onclick="copyCmd(this)">copiar</button><div class="cmd-line"><span class="prompt">%</span><span class="cmd-text">git stash</span></div><div class="cmd-comment">Salva mudanças sem commitar</div></div>
-        <div class="cmd-block"><button class="copy-btn" onclick="copyCmd(this)">copiar</button><div class="cmd-line"><span class="prompt">%</span><span class="cmd-text">git stash pop</span></div><div class="cmd-comment">Restaura as mudanças salvas</div></div>
+        <div class="cmd-block"><button class="copy-btn" onclick="copyCmd(this)">copiar</button><div class="cmd-line"><span class="prompt">%</span><span class="cmd-text">git stash</span></div><div class="cmd-comment">Guarda mudanças para depois</div></div>
+        <div class="cmd-block"><button class="copy-btn" onclick="copyCmd(this)">copiar</button><div class="cmd-line"><span class="prompt">%</span><span class="cmd-text">git stash pop</span></div><div class="cmd-comment">Recupera as mudanças guardadas</div></div>
         <div class="cmd-block"><button class="copy-btn" onclick="copyCmd(this)">copiar</button><div class="cmd-line"><span class="prompt">%</span><span class="cmd-text">git stash list</span></div><div class="cmd-comment">Lista todos os stashes</div></div>
       </div>
     </div>
@@ -525,27 +549,27 @@
       <div class="step-block">
         <div class="step-label">Configurar remoto</div>
         <div class="step-title">Gerenciar conexão com o GitHub</div>
-        <div class="cmd-block"><button class="copy-btn" onclick="copyCmd(this)">copiar</button><div class="cmd-line"><span class="prompt">%</span><span class="cmd-text">git remote add origin git@github.com:usuario/repo.git</span></div><div class="cmd-comment">Vincula ao remoto</div></div>
-        <div class="cmd-block"><button class="copy-btn" onclick="copyCmd(this)">copiar</button><div class="cmd-line"><span class="prompt">%</span><span class="cmd-text">git remote -v</span></div><div class="cmd-comment">Mostra os remotos configurados</div></div>
-        <div class="cmd-block"><button class="copy-btn" onclick="copyCmd(this)">copiar</button><div class="cmd-line"><span class="prompt">%</span><span class="cmd-text">git remote set-url origin nova-url</span></div><div class="cmd-comment">Altera a URL do remoto</div></div>
+        <div class="cmd-block"><button class="copy-btn" onclick="copyCmd(this)">copiar</button><div class="cmd-line"><span class="prompt">%</span><span class="cmd-text">git remote add origin git@github.com:usuario/repo.git</span></div><div class="cmd-comment">Conecta a um repositório remoto</div></div>
+        <div class="cmd-block"><button class="copy-btn" onclick="copyCmd(this)">copiar</button><div class="cmd-line"><span class="prompt">%</span><span class="cmd-text">git remote -v</span></div><div class="cmd-comment">Lista remotes configurados</div></div>
+        <div class="cmd-block"><button class="copy-btn" onclick="copyCmd(this)">copiar</button><div class="cmd-line"><span class="prompt">%</span><span class="cmd-text">git remote set-url origin nova-url</span></div><div class="cmd-comment">Muda a URL do remoto</div></div>
       </div>
       <hr class="divider">
       <div class="step-block">
         <div class="step-label">Push e Pull</div>
         <div class="step-title">Enviar e receber mudanças</div>
-        <div class="cmd-block"><button class="copy-btn" onclick="copyCmd(this)">copiar</button><div class="cmd-line"><span class="prompt">%</span><span class="cmd-text">git push -u origin main</span></div><div class="cmd-comment">Primeiro push — configura rastreamento automático</div></div>
-        <div class="cmd-block"><button class="copy-btn" onclick="copyCmd(this)">copiar</button><div class="cmd-line"><span class="prompt">%</span><span class="cmd-text">git push</span></div><div class="cmd-comment">Após -u, basta esse comando</div></div>
+        <div class="cmd-block"><button class="copy-btn" onclick="copyCmd(this)">copiar</button><div class="cmd-line"><span class="prompt">%</span><span class="cmd-text">git push -u origin main</span></div><div class="cmd-comment">Primeiro push, conecta branch local com remota</div></div>
+        <div class="cmd-block"><button class="copy-btn" onclick="copyCmd(this)">copiar</button><div class="cmd-line"><span class="prompt">%</span><span class="cmd-text">git push</span></div><div class="cmd-comment">Envia commits para o GitHub</div></div>
         <div class="cmd-block"><button class="copy-btn" onclick="copyCmd(this)">copiar</button><div class="cmd-line"><span class="prompt">%</span><span class="cmd-text">git pull</span></div><div class="cmd-comment">Baixa e mescla mudanças do remoto</div></div>
-        <div class="cmd-block"><button class="copy-btn" onclick="copyCmd(this)">copiar</button><div class="cmd-line"><span class="prompt">%</span><span class="cmd-text">git fetch origin</span></div><div class="cmd-comment">Baixa mudanças sem mesclar (seguro para revisar)</div></div>
-        <div class="cmd-block"><button class="copy-btn" onclick="copyCmd(this)">copiar</button><div class="cmd-line"><span class="prompt">%</span><span class="cmd-text">git push --force</span></div><div class="cmd-comment">Força o push sobrescrevendo o remoto (use com cuidado)</div></div>
+        <div class="cmd-block"><button class="copy-btn" onclick="copyCmd(this)">copiar</button><div class="cmd-line"><span class="prompt">%</span><span class="cmd-text">git fetch origin</span></div><div class="cmd-comment">Baixa mudanças sem mesclar</div></div>
+        <div class="cmd-block"><button class="copy-btn" onclick="copyCmd(this)">copiar</button><div class="cmd-line"><span class="prompt">%</span><span class="cmd-text">git push --force</span></div><div class="cmd-comment">Force push (use com cuidado!)</div></div>
       </div>
       <hr class="divider">
       <div class="step-block">
         <div class="step-label">GitHub CLI</div>
         <div class="step-title">GitHub no terminal <span class="badge badge-purple">Bônus</span></div>
-        <div class="cmd-block"><button class="copy-btn" onclick="copyCmd(this)">copiar</button><div class="cmd-line"><span class="prompt">%</span><span class="cmd-text">brew install gh && gh auth login</span></div><div class="cmd-comment">Instala e autentica o GitHub CLI</div></div>
-        <div class="cmd-block"><button class="copy-btn" onclick="copyCmd(this)">copiar</button><div class="cmd-line"><span class="prompt">%</span><span class="cmd-text">gh repo create nome --public --source=. --remote=origin --push</span></div><div class="cmd-comment">Cria repo, conecta e faz push em um comando</div></div>
-        <div class="cmd-block"><button class="copy-btn" onclick="copyCmd(this)">copiar</button><div class="cmd-line"><span class="prompt">%</span><span class="cmd-text">gh pr create</span></div><div class="cmd-comment">Abre um Pull Request</div></div>
+        <div class="cmd-block"><button class="copy-btn" onclick="copyCmd(this)">copiar</button><div class="cmd-line"><span class="prompt">%</span><span class="cmd-text">brew install gh && gh auth login</span></div><div class="cmd-comment">Instala e autentica GitHub CLI</div></div>
+        <div class="cmd-block"><button class="copy-btn" onclick="copyCmd(this)">copiar</button><div class="cmd-line"><span class="prompt">%</span><span class="cmd-text">gh repo create nome --public --source=. --push</span></div><div class="cmd-comment">Cria repo e publica em um comando</div></div>
+        <div class="cmd-block"><button class="copy-btn" onclick="copyCmd(this)">copiar</button><div class="cmd-line"><span class="prompt">%</span><span class="cmd-text">gh pr create</span></div><div class="cmd-comment">Cria Pull Request pelo terminal</div></div>
       </div>
     </div>
 
@@ -558,18 +582,18 @@
       <div class="step-block">
         <div class="step-label">Log</div>
         <div class="step-title">Ver histórico</div>
-        <div class="cmd-block"><button class="copy-btn" onclick="copyCmd(this)">copiar</button><div class="cmd-line"><span class="prompt">%</span><span class="cmd-text">git log --oneline</span></div><div class="cmd-comment">Uma linha por commit</div></div>
-        <div class="cmd-block"><button class="copy-btn" onclick="copyCmd(this)">copiar</button><div class="cmd-line"><span class="prompt">%</span><span class="cmd-text">git log --oneline --graph --all</span></div><div class="cmd-comment">Visualização gráfica de branches</div></div>
-        <div class="cmd-block"><button class="copy-btn" onclick="copyCmd(this)">copiar</button><div class="cmd-line"><span class="prompt">%</span><span class="cmd-text">git log --author="Nome" --since="2 weeks ago"</span></div><div class="cmd-comment">Filtra por autor e período</div></div>
-        <div class="cmd-block"><button class="copy-btn" onclick="copyCmd(this)">copiar</button><div class="cmd-line"><span class="prompt">%</span><span class="cmd-text">git show abc1234</span></div><div class="cmd-comment">Mudanças de um commit específico</div></div>
-        <div class="cmd-block"><button class="copy-btn" onclick="copyCmd(this)">copiar</button><div class="cmd-line"><span class="prompt">%</span><span class="cmd-text">git blame arquivo.txt</span></div><div class="cmd-comment">Quem alterou cada linha</div></div>
+        <div class="cmd-block"><button class="copy-btn" onclick="copyCmd(this)">copiar</button><div class="cmd-line"><span class="prompt">%</span><span class="cmd-text">git log --oneline</span></div><div class="cmd-comment">Lista commits em uma linha cada</div></div>
+        <div class="cmd-block"><button class="copy-btn" onclick="copyCmd(this)">copiar</button><div class="cmd-line"><span class="prompt">%</span><span class="cmd-text">git log --oneline --graph --all</span></div><div class="cmd-comment">Mostra árvore de commits e branches</div></div>
+        <div class="cmd-block"><button class="copy-btn" onclick="copyCmd(this)">copiar</button><div class="cmd-line"><span class="prompt">%</span><span class="cmd-text">git log --author="Nome" --since="2024-01-01"</span></div><div class="cmd-comment">Filtra por autor e data</div></div>
+        <div class="cmd-block"><button class="copy-btn" onclick="copyCmd(this)">copiar</button><div class="cmd-line"><span class="prompt">%</span><span class="cmd-text">git show abc1234</span></div><div class="cmd-comment">Mostra detalhes de um commit</div></div>
+        <div class="cmd-block"><button class="copy-btn" onclick="copyCmd(this)">copiar</button><div class="cmd-line"><span class="prompt">%</span><span class="cmd-text">git blame arquivo.txt</span></div><div class="cmd-comment">Mostra quem modificou cada linha</div></div>
       </div>
       <hr class="divider">
       <div class="step-block">
         <div class="step-label">Tags</div>
         <div class="step-title">Marcar versões</div>
-        <div class="cmd-block"><button class="copy-btn" onclick="copyCmd(this)">copiar</button><div class="cmd-line"><span class="prompt">%</span><span class="cmd-text">git tag -a v1.0.0 -m "versão 1.0.0"</span></div><div class="cmd-comment">Cria tag anotada</div></div>
-        <div class="cmd-block"><button class="copy-btn" onclick="copyCmd(this)">copiar</button><div class="cmd-line"><span class="prompt">%</span><span class="cmd-text">git push origin --tags</span></div><div class="cmd-comment">Envia tags para o GitHub</div></div>
+        <div class="cmd-block"><button class="copy-btn" onclick="copyCmd(this)">copiar</button><div class="cmd-line"><span class="prompt">%</span><span class="cmd-text">git tag -a v1.0.0 -m "versão 1.0.0"</span></div><div class="cmd-comment">Cria tag anotada (recomendado)</div></div>
+        <div class="cmd-block"><button class="copy-btn" onclick="copyCmd(this)">copiar</button><div class="cmd-line"><span class="prompt">%</span><span class="cmd-text">git push origin --tags</span></div><div class="cmd-comment">Envia tags para GitHub</div></div>
       </div>
     </div>
 
@@ -583,28 +607,28 @@
       <div class="step-block">
         <div class="step-label">Working directory</div>
         <div class="step-title">Desfazer mudanças não commitadas</div>
-        <div class="cmd-block"><button class="copy-btn" onclick="copyCmd(this)">copiar</button><div class="cmd-line"><span class="prompt">%</span><span class="cmd-text">git restore arquivo.txt</span></div><div class="cmd-comment">Descarta mudanças no arquivo (irreversível!)</div></div>
-        <div class="cmd-block"><button class="copy-btn" onclick="copyCmd(this)">copiar</button><div class="cmd-line"><span class="prompt">%</span><span class="cmd-text">git restore --staged arquivo.txt</span></div><div class="cmd-comment">Remove do stage sem perder as mudanças</div></div>
+        <div class="cmd-block"><button class="copy-btn" onclick="copyCmd(this)">copiar</button><div class="cmd-line"><span class="prompt">%</span><span class="cmd-text">git restore arquivo.txt</span></div><div class="cmd-comment">Descarta mudanças locais do arquivo</div></div>
+        <div class="cmd-block"><button class="copy-btn" onclick="copyCmd(this)">copiar</button><div class="cmd-line"><span class="prompt">%</span><span class="cmd-text">git restore --staged arquivo.txt</span></div><div class="cmd-comment">Remove arquivo do stage</div></div>
       </div>
       <hr class="divider">
       <div class="step-block">
         <div class="step-label">Commits locais</div>
         <div class="step-title">Desfazer commits não publicados</div>
-        <div class="cmd-block"><button class="copy-btn" onclick="copyCmd(this)">copiar</button><div class="cmd-line"><span class="prompt">%</span><span class="cmd-text">git reset --soft HEAD~1</span></div><div class="cmd-comment">Desfaz o commit, mantém mudanças no stage</div></div>
-        <div class="cmd-block"><button class="copy-btn" onclick="copyCmd(this)">copiar</button><div class="cmd-line"><span class="prompt">%</span><span class="cmd-text">git reset --hard HEAD~1</span></div><div class="cmd-comment">Desfaz commit E as mudanças nos arquivos (cuidado!)</div></div>
+        <div class="cmd-block"><button class="copy-btn" onclick="copyCmd(this)">copiar</button><div class="cmd-line"><span class="prompt">%</span><span class="cmd-text">git reset --soft HEAD~1</span></div><div class="cmd-comment">Desfaz commit, mantém mudanças staged</div></div>
+        <div class="cmd-block"><button class="copy-btn" onclick="copyCmd(this)">copiar</button><div class="cmd-line"><span class="prompt">%</span><span class="cmd-text">git reset --hard HEAD~1</span></div><div class="cmd-comment">Desfaz commit e descarta mudanças</div></div>
       </div>
       <hr class="divider">
       <div class="step-block">
         <div class="step-label">Commits publicados</div>
         <div class="step-title">Reverter sem reescrever histórico <span class="badge badge-green">Seguro</span></div>
-        <div class="cmd-block"><button class="copy-btn" onclick="copyCmd(this)">copiar</button><div class="cmd-line"><span class="prompt">%</span><span class="cmd-text">git revert HEAD</span></div><div class="cmd-comment">Cria um novo commit que desfaz o último</div></div>
+        <div class="cmd-block"><button class="copy-btn" onclick="copyCmd(this)">copiar</button><div class="cmd-line"><span class="prompt">%</span><span class="cmd-text">git revert HEAD</span></div><div class="cmd-comment">Cria novo commit que desfaz o anterior</div></div>
       </div>
       <hr class="divider">
       <div class="step-block">
         <div class="step-label">Emergência</div>
         <div class="step-title">Recuperar commits "perdidos"</div>
-        <div class="cmd-block"><button class="copy-btn" onclick="copyCmd(this)">copiar</button><div class="cmd-line"><span class="prompt">%</span><span class="cmd-text">git reflog</span></div><div class="cmd-comment">Histórico completo de movimentos do HEAD</div></div>
-        <div class="cmd-block"><button class="copy-btn" onclick="copyCmd(this)">copiar</button><div class="cmd-line"><span class="prompt">%</span><span class="cmd-text">git switch -c recuperado abc1234</span></div><div class="cmd-comment">Recupera um commit do reflog para uma nova branch</div></div>
+        <div class="cmd-block"><button class="copy-btn" onclick="copyCmd(this)">copiar</button><div class="cmd-line"><span class="prompt">%</span><span class="cmd-text">git reflog</span></div><div class="cmd-comment">Mostra histórico de movimentos do HEAD</div></div>
+        <div class="cmd-block"><button class="copy-btn" onclick="copyCmd(this)">copiar</button><div class="cmd-line"><span class="prompt">%</span><span class="cmd-text">git switch -c recuperado abc1234</span></div><div class="cmd-comment">Recupera commit específico em nova branch</div></div>
         <div class="tip-box"><p>O <code style="font-size:11px">reflog</code> guarda tudo por 90 dias. Se fez um reset --hard errado, o commit ainda está lá!</p></div>
       </div>
     </div>
@@ -618,10 +642,10 @@
       <div class="step-block">
         <div class="step-label">Fork & PR</div>
         <div class="step-title">Contribuir para projetos externos</div>
-        <div class="cmd-block"><button class="copy-btn" onclick="copyCmd(this)">copiar</button><div class="cmd-line"><span class="prompt">%</span><span class="cmd-text">gh repo fork usuario/repo --clone</span></div><div class="cmd-comment">Faz fork e clona automaticamente</div></div>
-        <div class="cmd-block"><button class="copy-btn" onclick="copyCmd(this)">copiar</button><div class="cmd-line"><span class="prompt">%</span><span class="cmd-text">git switch -c minha-contribuicao</span></div></div>
-        <div class="cmd-block"><button class="copy-btn" onclick="copyCmd(this)">copiar</button><div class="cmd-line"><span class="prompt">%</span><span class="cmd-text">git push origin minha-contribuicao</span></div></div>
-        <div class="cmd-block"><button class="copy-btn" onclick="copyCmd(this)">copiar</button><div class="cmd-line"><span class="prompt">%</span><span class="cmd-text">gh pr create --title "Descrição" --body "Detalhes"</span></div><div class="cmd-comment">Abre Pull Request no repositório original</div></div>
+        <div class="cmd-block"><button class="copy-btn" onclick="copyCmd(this)">copiar</button><div class="cmd-line"><span class="prompt">%</span><span class="cmd-text">gh repo fork usuario/repo --clone</span></div><div class="cmd-comment">Faz fork e clona para sua máquina</div></div>
+        <div class="cmd-block"><button class="copy-btn" onclick="copyCmd(this)">copiar</button><div class="cmd-line"><span class="prompt">%</span><span class="cmd-text">git switch -c minha-contribuicao</span></div><div class="cmd-comment">Cria branch para sua feature</div></div>
+        <div class="cmd-block"><button class="copy-btn" onclick="copyCmd(this)">copiar</button><div class="cmd-line"><span class="prompt">%</span><span class="cmd-text">git push origin minha-contribuicao</span></div><div class="cmd-comment">Envia branch para seu fork</div></div>
+        <div class="cmd-block"><button class="copy-btn" onclick="copyCmd(this)">copiar</button><div class="cmd-line"><span class="prompt">%</span><span class="cmd-text">gh pr create --title "Descrição da contribuição"</span></div><div class="cmd-comment">Abre Pull Request para o projeto original</div></div>
       </div>
       <hr class="divider">
       <div class="step-block">
@@ -634,8 +658,8 @@
           <div style="color:#1D9E75;font-family:var(--font-mono)">código do remoto aqui</div>
           <div style="color:#1D9E75;font-family:var(--font-mono)">>>>>>>> origin/main</div>
         </div>
-        <div class="cmd-block"><button class="copy-btn" onclick="copyCmd(this)">copiar</button><div class="cmd-line"><span class="prompt">%</span><span class="cmd-text">git add arquivo-resolvido.txt && git commit</span></div><div class="cmd-comment">Após editar o arquivo e resolver o conflito</div></div>
-        <div class="cmd-block"><button class="copy-btn" onclick="copyCmd(this)">copiar</button><div class="cmd-line"><span class="prompt">%</span><span class="cmd-text">git merge --abort</span></div><div class="cmd-comment">Cancela o merge e volta ao estado anterior</div></div>
+        <div class="cmd-block"><button class="copy-btn" onclick="copyCmd(this)">copiar</button><div class="cmd-line"><span class="prompt">%</span><span class="cmd-text">git add arquivo-resolvido.txt && git commit -m "resolve conflito"</span></div><div class="cmd-comment">Resolve o conflito e faz commit</div></div>
+        <div class="cmd-block"><button class="copy-btn" onclick="copyCmd(this)">copiar</button><div class="cmd-line"><span class="prompt">%</span><span class="cmd-text">git merge --abort</span></div><div class="cmd-comment">Cancela o merge se não conseguir resolver</div></div>
       </div>
     </div>
 

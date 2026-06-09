@@ -1,156 +1,569 @@
-
 <style>
-:root {
-  --color-text-primary: #24292e;
-  --color-text-secondary: #586069;
-  --color-text-tertiary: #6a737d;
-  --color-border-tertiary: #d1d5da;
-  --color-background-primary: #fafbfc;
-  --color-background-secondary: #f6f8fa;
-  --color-border-secondary: #e1e4e8;
-  --font-sans: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
-  --font-mono: "SF Mono", Monaco, "Cascadia Code", "Roboto Mono", Inconsolata, "Courier New", monospace;
-  --border-radius-md: 6px;
-}
-
-* { box-sizing: border-box; margin: 0; padding: 0; }
-.guide { display: flex; gap: 0; min-height: 600px; }
-.sidebar { width: 210px; flex-shrink: 0; border-right: 0.5px solid var(--color-border-tertiary); padding: 1rem 0; position: sticky; top: 0; align-self: flex-start; }
-.sidebar-title { font-size: 11px; font-weight: 500; color: var(--color-text-tertiary); text-transform: uppercase; letter-spacing: 0.08em; padding: 0 1rem 0.75rem; font-family: var(--font-sans); }
-.nav-item { display: flex; align-items: center; gap: 8px; padding: 6px 1rem; font-size: 13px; color: var(--color-text-secondary); cursor: pointer; border-left: 2px solid transparent; transition: all 0.2s; }
-.nav-item:hover { color: var(--color-text-primary); background: var(--color-background-secondary); }
-.nav-item.active { color: var(--color-text-primary); border-left-color: #1D9E75; background: var(--color-background-secondary); font-weight: 500; }
-.nav-item i { font-size: 15px; }
-.content { flex: 1; padding: 1.5rem 2rem; min-width: 0; }
-.section { display: none; }
-.section.active { display: block; }
-.section-header { margin-bottom: 1.5rem; padding-bottom: 1rem; border-bottom: 0.5px solid var(--color-border-tertiary); }
-.section-header h2 { font-size: 18px; font-weight: 500; color: var(--color-text-primary); font-family: var(--font-sans); margin-bottom: 4px; }
-.section-header p { font-size: 13px; color: var(--color-text-secondary); font-family: var(--font-sans); line-height: 1.5; }
-.step-block { margin-bottom: 1.5rem; }
-.step-label { font-size: 11px; font-weight: 500; color: var(--color-text-tertiary); text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 6px; font-family: var(--font-sans); }
-.step-title { font-size: 14px; font-weight: 500; color: var(--color-text-primary); margin-bottom: 8px; font-family: var(--font-sans); }
-.step-desc { font-size: 13px; color: var(--color-text-secondary); line-height: 1.6; margin-bottom: 10px; font-family: var(--font-sans); }
-.cmd-block { background: var(--color-background-secondary); border: 0.5px solid var(--color-border-tertiary); border-radius: var(--border-radius-md); padding: 10px 14px; margin-bottom: 8px; position: relative; }
-.cmd-line { display: flex; align-items: flex-start; gap: 8px; }
-.prompt { color: #1D9E75; font-size: 13px; user-select: none; margin-top: 1px; font-family: var(--font-mono); }
-.prompt-cc { color: #1D9E75; font-size: 13px; user-select: none; margin-top: 1px; font-family: var(--font-mono); }
-.cmd-text { font-size: 13px; color: var(--color-text-primary); flex: 1; word-break: break-all; font-family: var(--font-mono); }
-.cmd-comment { font-size: 12px; color: var(--color-text-tertiary); margin-top: 4px; padding-left: 18px; font-family: var(--font-sans); font-style: italic; }
-.copy-btn { position: absolute; top: 8px; right: 8px; background: none; border: 0.5px solid var(--color-border-secondary); border-radius: 4px; padding: 3px 7px; font-size: 11px; color: var(--color-text-secondary); opacity: 0; transition: all 0.2s; cursor: pointer; }
-.cmd-block:hover .copy-btn { opacity: 1; }
-.copy-btn:hover { background: var(--color-background-primary); }
-.tip-box { background: #E1F5EE; border-left: 3px solid #1D9E75; border-radius: 0 var(--border-radius-md) var(--border-radius-md) 0; padding: 10px 14px; margin-bottom: 12px; }
-.tip-box p { font-size: 13px; color: #085041; line-height: 1.5; font-family: var(--font-sans); }
-.warn-box { background: #FAEEDA; border-left: 3px solid #BA7517; border-radius: 0 var(--border-radius-md) var(--border-radius-md) 0; padding: 10px 14px; margin-bottom: 12px; }
-.warn-box p { font-size: 13px; color: #633806; line-height: 1.5; font-family: var(--font-sans); }
-.info-box { background: #EEEDFE; border-left: 3px solid #7F77DD; border-radius: 0 var(--border-radius-md) var(--border-radius-md) 0; padding: 10px 14px; margin-bottom: 12px; }
-.info-box p { font-size: 13px; color: #3C3489; line-height: 1.5; font-family: var(--font-sans); }
-.success-box { background: #EAF3DE; border-left: 3px solid #3B6D11; border-radius: 0 var(--border-radius-md) var(--border-radius-md) 0; padding: 10px 14px; margin-bottom: 12px; }
-.success-box p { font-size: 13px; color: #27500A; line-height: 1.5; font-family: var(--font-sans); }
-.badge { display: inline-block; font-size: 10px; font-weight: 500; padding: 2px 7px; border-radius: 20px; font-family: var(--font-sans); }
-.badge-green { background: #EAF3DE; color: #27500A; }
-.badge-purple { background: #EEEDFE; color: #3C3489; }
-.badge-amber { background: #FAEEDA; color: #633806; }
-.badge-teal { background: #E1F5EE; color: #085041; }
-.divider { border: none; border-top: 0.5px solid var(--color-border-tertiary); margin: 1.25rem 0; }
-.cmd-table { width: 100%; border-collapse: collapse; margin-bottom: 1rem; }
-.cmd-table th { font-size: 11px; font-weight: 500; color: var(--color-text-tertiary); text-transform: uppercase; letter-spacing: 0.06em; padding: 6px 12px; text-align: left; border-bottom: 0.5px solid var(--color-border-tertiary); }
-.cmd-table td { padding: 7px 12px; border-bottom: 0.5px solid var(--color-border-tertiary); vertical-align: top; }
-.cmd-table td:first-child { font-size: 12px; color: #0F6E56; white-space: nowrap; font-family: var(--font-mono); }
-.cmd-table td:last-child { font-size: 12px; color: var(--color-text-secondary); font-family: var(--font-sans); line-height: 1.5; }
-.cmd-table tr:last-child td { border-bottom: none; }
-.cmd-table tr:hover td { background: var(--color-background-secondary); }
-.steps-track { display: flex; flex-direction: column; gap: 0; margin-bottom: 1.5rem; }
-.track-step { display: flex; gap: 12px; }
-.track-left { display: flex; flex-direction: column; align-items: center; width: 28px; flex-shrink: 0; }
-.track-num { width: 26px; height: 26px; border-radius: 50%; background: #E1F5EE; color: #085041; font-size: 12px; font-weight: 500; display: flex; align-items: center; justify-content: center; font-family: var(--font-sans); }
-.track-line { width: 1px; background: var(--color-border-tertiary); flex: 1; min-height: 12px; }
-.track-step:last-child .track-line { display: none; }
-.track-content { padding-bottom: 16px; flex: 1; padding-top: 2px; }
-.track-title { font-size: 13px; font-weight: 500; color: var(--color-text-primary); font-family: var(--font-sans); margin-bottom: 6px; }
-.cc-prompt-block { background: var(--color-background-secondary); border: 0.5px solid var(--color-border-tertiary); border-radius: var(--border-radius-md); padding: 10px 14px; margin-bottom: 8px; }
-.cc-label { font-size: 10px; color: var(--color-text-tertiary); font-family: var(--font-sans); margin-bottom: 4px; }
-.cc-text { font-size: 13px; color: #1D9E75; font-family: var(--font-sans); font-style: italic; line-height: 1.5; }
-
-@media (prefers-color-scheme: dark) {
   :root {
-    --color-text-primary: #e1e4e8;
-    --color-text-secondary: #b1bac4;
+    --color-text-primary: #24292e;
+    --color-text-secondary: #586069;
     --color-text-tertiary: #6a737d;
-    --color-border-tertiary: #30363d;
-    --color-background-primary: #0d1117;
-    --color-background-secondary: #161b22;
-    --color-border-secondary: #30363d;
+    --color-border-tertiary: #d1d5da;
+    --color-background-primary: #fafbfc;
+    --color-background-secondary: #f6f8fa;
+    --color-border-secondary: #e1e4e8;
+    --font-sans:
+      -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial,
+      sans-serif;
+    --font-mono:
+      "SF Mono", Monaco, "Cascadia Code", "Roboto Mono", Inconsolata,
+      "Courier New", monospace;
+    --border-radius-md: 6px;
   }
-  .tip-box { background: #04342C; }
-  .tip-box p { color: #9FE1CB; }
-  .warn-box { background: #412402; }
-  .warn-box p { color: #FAC775; }
-  .info-box { background: #26215C; }
-  .info-box p { color: #CECBF6; }
-  .success-box { background: #173404; }
-  .success-box p { color: #C0DD97; }
-  .badge-green { background: #173404; color: #C0DD97; }
-  .badge-purple { background: #26215C; color: #CECBF6; }
-  .badge-amber { background: #412402; color: #FAC775; }
-  .badge-teal { background: #04342C; color: #9FE1CB; }
-  .track-num { background: #04342C; color: #9FE1CB; }
-  .cmd-table td:first-child { color: #5DCAA5; }
-}
+
+  * {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+  }
+  .guide {
+    display: flex;
+    gap: 0;
+    min-height: 600px;
+  }
+  .sidebar {
+    width: 210px;
+    flex-shrink: 0;
+    border-right: 0.5px solid var(--color-border-tertiary);
+    padding: 1rem 0;
+    position: sticky;
+    top: 0;
+    align-self: flex-start;
+  }
+  .sidebar-title {
+    font-size: 11px;
+    font-weight: 500;
+    color: var(--color-text-tertiary);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    padding: 0 1rem 0.75rem;
+    font-family: var(--font-sans);
+  }
+  .nav-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 6px 1rem;
+    font-size: 13px;
+    color: var(--color-text-secondary);
+    cursor: pointer;
+    border-left: 2px solid transparent;
+    transition: all 0.2s;
+  }
+  .nav-item:hover {
+    color: var(--color-text-primary);
+    background: var(--color-background-secondary);
+  }
+  .nav-item.active {
+    color: var(--color-text-primary);
+    border-left-color: #1d9e75;
+    background: var(--color-background-secondary);
+    font-weight: 500;
+  }
+  .nav-item i {
+    font-size: 15px;
+  }
+  .content {
+    flex: 1;
+    padding: 1.5rem 2rem;
+    min-width: 0;
+  }
+  .section {
+    display: none;
+  }
+  .section.active {
+    display: block;
+  }
+  .section-header {
+    margin-bottom: 1.5rem;
+    padding-bottom: 1rem;
+    border-bottom: 0.5px solid var(--color-border-tertiary);
+  }
+  .section-header h2 {
+    font-size: 18px;
+    font-weight: 500;
+    color: var(--color-text-primary);
+    font-family: var(--font-sans);
+    margin-bottom: 4px;
+  }
+  .section-header p {
+    font-size: 13px;
+    color: var(--color-text-secondary);
+    font-family: var(--font-sans);
+    line-height: 1.5;
+  }
+  .step-block {
+    margin-bottom: 1.5rem;
+  }
+  .step-label {
+    font-size: 11px;
+    font-weight: 500;
+    color: var(--color-text-tertiary);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    margin-bottom: 6px;
+    font-family: var(--font-sans);
+  }
+  .step-title {
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--color-text-primary);
+    margin-bottom: 8px;
+    font-family: var(--font-sans);
+  }
+  .step-desc {
+    font-size: 13px;
+    color: var(--color-text-secondary);
+    line-height: 1.6;
+    margin-bottom: 10px;
+    font-family: var(--font-sans);
+  }
+  .cmd-block {
+    background: var(--color-background-secondary);
+    border: 0.5px solid var(--color-border-tertiary);
+    border-radius: var(--border-radius-md);
+    padding: 10px 14px;
+    margin-bottom: 8px;
+    position: relative;
+  }
+  .cmd-line {
+    display: flex;
+    align-items: flex-start;
+    gap: 8px;
+  }
+  .prompt {
+    color: #1d9e75;
+    font-size: 13px;
+    user-select: none;
+    margin-top: 1px;
+    font-family: var(--font-mono);
+  }
+  .prompt-cc {
+    color: #1d9e75;
+    font-size: 13px;
+    user-select: none;
+    margin-top: 1px;
+    font-family: var(--font-mono);
+  }
+  .cmd-text {
+    font-size: 13px;
+    color: var(--color-text-primary);
+    flex: 1;
+    word-break: break-all;
+    font-family: var(--font-mono);
+  }
+  .cmd-comment {
+    font-size: 12px;
+    color: var(--color-text-tertiary);
+    margin-top: 4px;
+    padding-left: 18px;
+    font-family: var(--font-sans);
+    font-style: italic;
+  }
+  .copy-btn {
+    position: absolute;
+    top: 8px;
+    right: 8px;
+    background: none;
+    border: 0.5px solid var(--color-border-secondary);
+    border-radius: 4px;
+    padding: 3px 7px;
+    font-size: 11px;
+    color: var(--color-text-secondary);
+    opacity: 0;
+    transition: all 0.2s;
+    cursor: pointer;
+  }
+  .cmd-block:hover .copy-btn {
+    opacity: 1;
+  }
+  .copy-btn:hover {
+    background: var(--color-background-primary);
+  }
+  .tip-box {
+    background: #e1f5ee;
+    border-left: 3px solid #1d9e75;
+    border-radius: 0 var(--border-radius-md) var(--border-radius-md) 0;
+    padding: 10px 14px;
+    margin-bottom: 12px;
+  }
+  .tip-box p {
+    font-size: 13px;
+    color: #085041;
+    line-height: 1.5;
+    font-family: var(--font-sans);
+  }
+  .warn-box {
+    background: #faeeda;
+    border-left: 3px solid #ba7517;
+    border-radius: 0 var(--border-radius-md) var(--border-radius-md) 0;
+    padding: 10px 14px;
+    margin-bottom: 12px;
+  }
+  .warn-box p {
+    font-size: 13px;
+    color: #633806;
+    line-height: 1.5;
+    font-family: var(--font-sans);
+  }
+  .info-box {
+    background: #eeedfe;
+    border-left: 3px solid #7f77dd;
+    border-radius: 0 var(--border-radius-md) var(--border-radius-md) 0;
+    padding: 10px 14px;
+    margin-bottom: 12px;
+  }
+  .info-box p {
+    font-size: 13px;
+    color: #3c3489;
+    line-height: 1.5;
+    font-family: var(--font-sans);
+  }
+  .success-box {
+    background: #eaf3de;
+    border-left: 3px solid #3b6d11;
+    border-radius: 0 var(--border-radius-md) var(--border-radius-md) 0;
+    padding: 10px 14px;
+    margin-bottom: 12px;
+  }
+  .success-box p {
+    font-size: 13px;
+    color: #27500a;
+    line-height: 1.5;
+    font-family: var(--font-sans);
+  }
+  .badge {
+    display: inline-block;
+    font-size: 10px;
+    font-weight: 500;
+    padding: 2px 7px;
+    border-radius: 20px;
+    font-family: var(--font-sans);
+  }
+  .badge-green {
+    background: #eaf3de;
+    color: #27500a;
+  }
+  .badge-purple {
+    background: #eeedfe;
+    color: #3c3489;
+  }
+  .badge-amber {
+    background: #faeeda;
+    color: #633806;
+  }
+  .badge-teal {
+    background: #e1f5ee;
+    color: #085041;
+  }
+  .divider {
+    border: none;
+    border-top: 0.5px solid var(--color-border-tertiary);
+    margin: 1.25rem 0;
+  }
+  .cmd-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 1rem;
+  }
+  .cmd-table th {
+    font-size: 11px;
+    font-weight: 500;
+    color: var(--color-text-tertiary);
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    padding: 6px 12px;
+    text-align: left;
+    border-bottom: 0.5px solid var(--color-border-tertiary);
+  }
+  .cmd-table td {
+    padding: 7px 12px;
+    border-bottom: 0.5px solid var(--color-border-tertiary);
+    vertical-align: top;
+  }
+  .cmd-table td:first-child {
+    font-size: 12px;
+    color: #0f6e56;
+    white-space: nowrap;
+    font-family: var(--font-mono);
+  }
+  .cmd-table td:last-child {
+    font-size: 12px;
+    color: var(--color-text-secondary);
+    font-family: var(--font-sans);
+    line-height: 1.5;
+  }
+  .cmd-table tr:last-child td {
+    border-bottom: none;
+  }
+  .cmd-table tr:hover td {
+    background: var(--color-background-secondary);
+  }
+  .steps-track {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+    margin-bottom: 1.5rem;
+  }
+  .track-step {
+    display: flex;
+    gap: 12px;
+  }
+  .track-left {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 28px;
+    flex-shrink: 0;
+  }
+  .track-num {
+    width: 26px;
+    height: 26px;
+    border-radius: 50%;
+    background: #e1f5ee;
+    color: #085041;
+    font-size: 12px;
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: var(--font-sans);
+  }
+  .track-line {
+    width: 1px;
+    background: var(--color-border-tertiary);
+    flex: 1;
+    min-height: 12px;
+  }
+  .track-step:last-child .track-line {
+    display: none;
+  }
+  .track-content {
+    padding-bottom: 16px;
+    flex: 1;
+    padding-top: 2px;
+  }
+  .track-title {
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--color-text-primary);
+    font-family: var(--font-sans);
+    margin-bottom: 6px;
+  }
+  .cc-prompt-block {
+    background: var(--color-background-secondary);
+    border: 0.5px solid var(--color-border-tertiary);
+    border-radius: var(--border-radius-md);
+    padding: 10px 14px;
+    margin-bottom: 8px;
+  }
+  .cc-label {
+    font-size: 10px;
+    color: var(--color-text-tertiary);
+    font-family: var(--font-sans);
+    margin-bottom: 4px;
+  }
+  .cc-text {
+    font-size: 13px;
+    color: #1d9e75;
+    font-family: var(--font-sans);
+    font-style: italic;
+    line-height: 1.5;
+  }
+  body {
+    background: #22242a;
+  }
+
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --color-text-primary: #e1e4e8;
+      --color-text-secondary: #b1bac4;
+      --color-text-tertiary: #6a737d;
+      --color-border-tertiary: #30363d;
+      --color-background-primary: #0d1117;
+      --color-background-secondary: #161b22;
+      --color-border-secondary: #30363d;
+    }
+    .tip-box {
+      background: #04342c;
+    }
+    .tip-box p {
+      color: #9fe1cb;
+    }
+    .warn-box {
+      background: #412402;
+    }
+    .warn-box p {
+      color: #fac775;
+    }
+    .info-box {
+      background: #26215c;
+    }
+    .info-box p {
+      color: #cecbf6;
+    }
+    .success-box {
+      background: #173404;
+    }
+    .success-box p {
+      color: #c0dd97;
+    }
+    .badge-green {
+      background: #173404;
+      color: #c0dd97;
+    }
+    .badge-purple {
+      background: #26215c;
+      color: #cecbf6;
+    }
+    .badge-amber {
+      background: #412402;
+      color: #fac775;
+    }
+    .badge-teal {
+      background: #04342c;
+      color: #9fe1cb;
+    }
+    .track-num {
+      background: #04342c;
+      color: #9fe1cb;
+    }
+    .cmd-table td:first-child {
+      color: #5dcaa5;
+    }
+  }
 </style>
 
-<h2 class="sr-only" style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0,0,0,0)">Guia Claude Code com GitHub para macOS</h2>
+<h2
+  class="sr-only"
+  style="
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+  "
+>
+  Guia Claude Code com GitHub para macOS
+</h2>
 
 <div class="guide">
   <nav class="sidebar">
     <div class="sidebar-title">Claude Code + GitHub</div>
-    <div class="nav-item active" onclick="show('intro')"><i class="ti ti-sparkles" aria-hidden="true"></i> O que é</div>
-    <div class="nav-item" onclick="show('install')"><i class="ti ti-download" aria-hidden="true"></i> Instalação</div>
-    <div class="nav-item" onclick="show('primeiros')"><i class="ti ti-player-play" aria-hidden="true"></i> Primeiros passos</div>
-    <div class="nav-item" onclick="show('github')"><i class="ti ti-brand-github" aria-hidden="true"></i> Claude Code + GitHub</div>
-    <div class="nav-item" onclick="show('projeto')"><i class="ti ti-file-code" aria-hidden="true"></i> Subir projeto</div>
-    <div class="nav-item" onclick="show('melhorias')"><i class="ti ti-edit" aria-hidden="true"></i> Fazer melhorias</div>
-    <div class="nav-item" onclick="show('slash')"><i class="ti ti-slash" aria-hidden="true"></i> Comandos /slash</div>
-    <div class="nav-item" onclick="show('dicas')"><i class="ti ti-bulb" aria-hidden="true"></i> Dicas de uso</div>
-    <div class="nav-item" onclick="show('ref')"><i class="ti ti-list" aria-hidden="true"></i> Referência</div>
+    <div class="nav-item active" onclick="show('intro')">
+      <i class="ti ti-sparkles" aria-hidden="true"></i> O que é
+    </div>
+    <div class="nav-item" onclick="show('install')">
+      <i class="ti ti-download" aria-hidden="true"></i> Instalação
+    </div>
+    <div class="nav-item" onclick="show('primeiros')">
+      <i class="ti ti-player-play" aria-hidden="true"></i> Primeiros passos
+    </div>
+    <div class="nav-item" onclick="show('github')">
+      <i class="ti ti-brand-github" aria-hidden="true"></i> Claude Code + GitHub
+    </div>
+    <div class="nav-item" onclick="show('projeto')">
+      <i class="ti ti-file-code" aria-hidden="true"></i> Subir projeto
+    </div>
+    <div class="nav-item" onclick="show('melhorias')">
+      <i class="ti ti-edit" aria-hidden="true"></i> Fazer melhorias
+    </div>
+    <div class="nav-item" onclick="show('slash')">
+      <i class="ti ti-slash" aria-hidden="true"></i> Comandos /slash
+    </div>
+    <div class="nav-item" onclick="show('dicas')">
+      <i class="ti ti-bulb" aria-hidden="true"></i> Dicas de uso
+    </div>
+    <div class="nav-item" onclick="show('ref')">
+      <i class="ti ti-list" aria-hidden="true"></i> Referência
+    </div>
   </nav>
 
   <main class="content">
-
     <!-- O QUE É -->
     <div class="section active" id="sec-intro">
       <div class="section-header">
         <h2>O que é o Claude Code</h2>
-        <p>Um agente de programação que roda direto no seu terminal e entende todo o seu projeto.</p>
+        <p>
+          Um agente de programação que roda direto no seu terminal e entende
+          todo o seu projeto.
+        </p>
       </div>
 
-      <div class="info-box"><p><strong>Em resumo:</strong> o Claude Code é como ter um programador sênior dentro do terminal. Você conversa em linguagem natural, ele lê seus arquivos, faz alterações, roda comandos e publica tudo.</p></div>
+      <div class="info-box">
+        <p>
+          <strong>Em resumo:</strong> o Claude Code é como ter um programador
+          sênior dentro do terminal. Você conversa em linguagem natural, ele lê
+          seus arquivos, faz alterações, roda comandos e publica tudo.
+        </p>
+      </div>
 
       <div class="step-block">
         <div class="step-label">O que ele pode fazer</div>
         <div class="step-title">Capacidades principais</div>
         <table class="cmd-table">
-          <thead><tr><th>Capacidade</th><th>Exemplo prático</th></tr></thead>
+          <thead>
+            <tr>
+              <th>Capacidade</th>
+              <th>Exemplo prático</th>
+            </tr>
+          </thead>
           <tbody>
-            <tr><td>Ler o projeto inteiro</td><td>"Explica como esse projeto está estruturado"</td></tr>
-            <tr><td>Editar arquivos</td><td>"Adiciona animação de fade nesse botão"</td></tr>
-            <tr><td>Rodar comandos</td><td>Executa git, npm, scripts automaticamente</td></tr>
-            <tr><td>Fazer commits e push</td><td>"Commita as mudanças com uma boa mensagem"</td></tr>
-            <tr><td>Revisar código</td><td>"O que pode ser melhorado nesse arquivo?"</td></tr>
-            <tr><td>Criar arquivos</td><td>"Cria um README detalhado para esse projeto"</td></tr>
-            <tr><td>Resolver bugs</td><td>"Esse erro está acontecendo, me ajuda a resolver"</td></tr>
+            <tr>
+              <td>Ler o projeto inteiro</td>
+              <td>"Explica como esse projeto está estruturado"</td>
+            </tr>
+            <tr>
+              <td>Editar arquivos</td>
+              <td>"Adiciona animação de fade nesse botão"</td>
+            </tr>
+            <tr>
+              <td>Rodar comandos</td>
+              <td>Executa git, npm, scripts automaticamente</td>
+            </tr>
+            <tr>
+              <td>Fazer commits e push</td>
+              <td>"Commita as mudanças com uma boa mensagem"</td>
+            </tr>
+            <tr>
+              <td>Revisar código</td>
+              <td>"O que pode ser melhorado nesse arquivo?"</td>
+            </tr>
+            <tr>
+              <td>Criar arquivos</td>
+              <td>"Cria um README detalhado para esse projeto"</td>
+            </tr>
+            <tr>
+              <td>Resolver bugs</td>
+              <td>"Esse erro está acontecendo, me ajuda a resolver"</td>
+            </tr>
           </tbody>
         </table>
       </div>
 
-      <hr class="divider">
+      <hr class="divider" />
 
       <div class="step-block">
         <div class="step-label">Como funciona na prática</div>
         <div class="step-title">O fluxo básico</div>
-        <div class="step-desc">Você entra na pasta do projeto, digita <code style="font-size:12px">claude</code> e começa a conversar. O Claude Code pede permissão antes de fazer qualquer alteração no projeto.</div>
-        <div class="tip-box"><p><strong>Diferença do chat:</strong> no claude.ai você cola código manualmente. No Claude Code ele navega e edita o projeto inteiro sozinho, com contexto completo.</p></div>
+        <div class="step-desc">
+          Você entra na pasta do projeto, digita
+          <code style="font-size: 12px">claude</code> e começa a conversar. O
+          Claude Code pede permissão antes de fazer qualquer alteração no
+          projeto.
+        </div>
+        <div class="tip-box">
+          <p>
+            <strong>Diferença do chat:</strong> no claude.ai você cola código
+            manualmente. No Claude Code ele navega e edita o projeto inteiro
+            sozinho, com contexto completo.
+          </p>
+        </div>
       </div>
     </div>
 
@@ -158,7 +571,9 @@
     <div class="section" id="sec-install">
       <div class="section-header">
         <h2>Instalação no macOS</h2>
-        <p>O Claude Code é instalado via npm e requer Node.js 18 ou superior.</p>
+        <p>
+          O Claude Code é instalado via npm e requer Node.js 18 ou superior.
+        </p>
       </div>
 
       <div class="step-block">
@@ -166,8 +581,13 @@
         <div class="step-title">Verificar Node.js</div>
         <div class="cmd-block">
           <button class="copy-btn" onclick="copyCmd(this)">copiar</button>
-          <div class="cmd-line"><span class="prompt">%</span><span class="cmd-text">node --version</span></div>
-          <div class="cmd-comment">Precisa ser v18 ou superior. Se não tiver: brew install node</div>
+          <div class="cmd-line">
+            <span class="prompt">%</span
+            ><span class="cmd-text">node --version</span>
+          </div>
+          <div class="cmd-comment">
+            Precisa ser v18 ou superior. Se não tiver: brew install node
+          </div>
         </div>
       </div>
 
@@ -176,7 +596,12 @@
         <div class="step-title">Instalar o Claude Code</div>
         <div class="cmd-block">
           <button class="copy-btn" onclick="copyCmd(this)">copiar</button>
-          <div class="cmd-line"><span class="prompt">%</span><span class="cmd-text">npm install -g @anthropic-ai/claude-code</span></div>
+          <div class="cmd-line">
+            <span class="prompt">%</span
+            ><span class="cmd-text"
+              >npm install -g @anthropic-ai/claude-code</span
+            >
+          </div>
           <div class="cmd-comment">Instala globalmente via npm</div>
         </div>
       </div>
@@ -186,11 +611,25 @@
         <div class="step-title">Fazer login com sua conta Anthropic</div>
         <div class="cmd-block">
           <button class="copy-btn" onclick="copyCmd(this)">copiar</button>
-          <div class="cmd-line"><span class="prompt">%</span><span class="cmd-text">claude auth login</span></div>
-          <div class="cmd-comment">Abre o navegador para autenticar com sua conta claude.ai</div>
+          <div class="cmd-line">
+            <span class="prompt">%</span
+            ><span class="cmd-text">claude auth login</span>
+          </div>
+          <div class="cmd-comment">
+            Abre o navegador para autenticar com sua conta claude.ai
+          </div>
         </div>
-        <div class="step-desc">Uma janela do navegador abre — faça login com a mesma conta do claude.ai, copie o código e cole no terminal.</div>
-        <div class="tip-box"><p>Se preferir usar via API Key em vez de assinatura, use <code style="font-size:11px">claude auth login --console</code> e informe sua chave da Anthropic Console.</p></div>
+        <div class="step-desc">
+          Uma janela do navegador abre — faça login com a mesma conta do
+          claude.ai, copie o código e cole no terminal.
+        </div>
+        <div class="tip-box">
+          <p>
+            Se preferir usar via API Key em vez de assinatura, use
+            <code style="font-size: 11px">claude auth login --console</code> e
+            informe sua chave da Anthropic Console.
+          </p>
+        </div>
       </div>
 
       <div class="step-block">
@@ -198,24 +637,33 @@
         <div class="step-title">Verificar instalação</div>
         <div class="cmd-block">
           <button class="copy-btn" onclick="copyCmd(this)">copiar</button>
-          <div class="cmd-line"><span class="prompt">%</span><span class="cmd-text">claude --version</span></div>
+          <div class="cmd-line">
+            <span class="prompt">%</span
+            ><span class="cmd-text">claude --version</span>
+          </div>
           <div class="cmd-comment">Mostra a versão instalada</div>
         </div>
         <div class="cmd-block">
           <button class="copy-btn" onclick="copyCmd(this)">copiar</button>
-          <div class="cmd-line"><span class="prompt">%</span><span class="cmd-text">claude auth status</span></div>
+          <div class="cmd-line">
+            <span class="prompt">%</span
+            ><span class="cmd-text">claude auth status</span>
+          </div>
           <div class="cmd-comment">Confirma que está autenticado</div>
         </div>
       </div>
 
-      <hr class="divider">
+      <hr class="divider" />
 
       <div class="step-block">
         <div class="step-label">Atualização</div>
         <div class="step-title">Manter sempre atualizado</div>
         <div class="cmd-block">
           <button class="copy-btn" onclick="copyCmd(this)">copiar</button>
-          <div class="cmd-line"><span class="prompt">%</span><span class="cmd-text">claude update</span></div>
+          <div class="cmd-line">
+            <span class="prompt">%</span
+            ><span class="cmd-text">claude update</span>
+          </div>
           <div class="cmd-comment">Atualiza para a última versão</div>
         </div>
       </div>
@@ -233,18 +681,29 @@
         <div class="step-title">Abrir o Claude Code num projeto</div>
         <div class="cmd-block">
           <button class="copy-btn" onclick="copyCmd(this)">copiar</button>
-          <div class="cmd-line"><span class="prompt">%</span><span class="cmd-text">cd ~/caminho/do/seu-projeto</span></div>
+          <div class="cmd-line">
+            <span class="prompt">%</span
+            ><span class="cmd-text">cd ~/caminho/do/seu-projeto</span>
+          </div>
           <div class="cmd-comment">Entre na pasta do projeto primeiro</div>
         </div>
         <div class="cmd-block">
           <button class="copy-btn" onclick="copyCmd(this)">copiar</button>
-          <div class="cmd-line"><span class="prompt">%</span><span class="cmd-text">claude</span></div>
+          <div class="cmd-line">
+            <span class="prompt">%</span><span class="cmd-text">claude</span>
+          </div>
           <div class="cmd-comment">Inicia a sessão interativa</div>
         </div>
-        <div class="success-box"><p>O Claude Code vai mapear o projeto automaticamente. Você verá o prompt <code style="font-size:11px">&gt;</code> — pode começar a conversar!</p></div>
+        <div class="success-box">
+          <p>
+            O Claude Code vai mapear o projeto automaticamente. Você verá o
+            prompt <code style="font-size: 11px">&gt;</code> — pode começar a
+            conversar!
+          </p>
+        </div>
       </div>
 
-      <hr class="divider">
+      <hr class="divider" />
 
       <div class="step-block">
         <div class="step-label">Exemplos de conversa</div>
@@ -252,7 +711,9 @@
 
         <div class="cc-prompt-block">
           <div class="cc-label">você digita</div>
-          <div class="cc-text">"Me explica como esse projeto está organizado"</div>
+          <div class="cc-text">
+            "Me explica como esse projeto está organizado"
+          </div>
         </div>
         <div class="cc-prompt-block">
           <div class="cc-label">você digita</div>
@@ -264,50 +725,96 @@
         </div>
         <div class="cc-prompt-block">
           <div class="cc-label">você digita</div>
-          <div class="cc-text">"Cria um README.md bem completo para esse projeto"</div>
+          <div class="cc-text">
+            "Cria um README.md bem completo para esse projeto"
+          </div>
         </div>
       </div>
 
-      <hr class="divider">
+      <hr class="divider" />
 
       <div class="step-block">
         <div class="step-label">Modos de uso</div>
         <div class="step-title">Formas de iniciar o Claude Code</div>
         <div class="cmd-block">
           <button class="copy-btn" onclick="copyCmd(this)">copiar</button>
-          <div class="cmd-line"><span class="prompt">%</span><span class="cmd-text">claude</span></div>
+          <div class="cmd-line">
+            <span class="prompt">%</span><span class="cmd-text">claude</span>
+          </div>
           <div class="cmd-comment">Modo interativo — conversa contínua</div>
         </div>
         <div class="cmd-block">
           <button class="copy-btn" onclick="copyCmd(this)">copiar</button>
-          <div class="cmd-line"><span class="prompt">%</span><span class="cmd-text">claude "explica esse projeto"</span></div>
+          <div class="cmd-line">
+            <span class="prompt">%</span
+            ><span class="cmd-text">claude "explica esse projeto"</span>
+          </div>
           <div class="cmd-comment">Abre já com um prompt inicial</div>
         </div>
         <div class="cmd-block">
           <button class="copy-btn" onclick="copyCmd(this)">copiar</button>
-          <div class="cmd-line"><span class="prompt">%</span><span class="cmd-text">claude -p "lista todos os arquivos .js"</span></div>
+          <div class="cmd-line">
+            <span class="prompt">%</span
+            ><span class="cmd-text"
+              >claude -p "lista todos os arquivos .js"</span
+            >
+          </div>
           <div class="cmd-comment">Modo não-interativo — responde e fecha</div>
         </div>
         <div class="cmd-block">
           <button class="copy-btn" onclick="copyCmd(this)">copiar</button>
-          <div class="cmd-line"><span class="prompt">%</span><span class="cmd-text">claude -c</span></div>
+          <div class="cmd-line">
+            <span class="prompt">%</span><span class="cmd-text">claude -c</span>
+          </div>
           <div class="cmd-comment">Retoma a última conversa de onde parou</div>
         </div>
       </div>
 
-      <hr class="divider">
+      <hr class="divider" />
 
       <div class="step-block">
         <div class="step-label">Permissões</div>
         <div class="step-title">Como o Claude Code pede autorização</div>
-        <div class="step-desc">Antes de editar arquivos ou rodar comandos, o Claude Code sempre mostra o que vai fazer e pede confirmação:</div>
-        <div class="cmd-block" style="font-family:var(--font-sans);font-size:13px;">
-          <div style="color:var(--color-text-tertiary);font-size:11px;margin-bottom:6px">exemplo de permissão</div>
-          <div style="color:#BA7517;margin-bottom:4px">⚡ Edit file: index.html</div>
-          <div style="color:var(--color-text-secondary);font-size:12px;margin-bottom:8px">Adicionar classe 'fade-in' ao elemento hero</div>
-          <div style="color:var(--color-text-tertiary);font-size:12px">[Y]es  [N]o  [A]lways  [S]kip</div>
+        <div class="step-desc">
+          Antes de editar arquivos ou rodar comandos, o Claude Code sempre
+          mostra o que vai fazer e pede confirmação:
         </div>
-        <div class="tip-box"><p>Pressione <strong>Y</strong> para aprovar, <strong>N</strong> para recusar, <strong>A</strong> para aprovar sempre esse tipo de ação, ou <strong>S</strong> para pular.</p></div>
+        <div
+          class="cmd-block"
+          style="font-family: var(--font-sans); font-size: 13px"
+        >
+          <div
+            style="
+              color: var(--color-text-tertiary);
+              font-size: 11px;
+              margin-bottom: 6px;
+            "
+          >
+            exemplo de permissão
+          </div>
+          <div style="color: #ba7517; margin-bottom: 4px">
+            ⚡ Edit file: index.html
+          </div>
+          <div
+            style="
+              color: var(--color-text-secondary);
+              font-size: 12px;
+              margin-bottom: 8px;
+            "
+          >
+            Adicionar classe 'fade-in' ao elemento hero
+          </div>
+          <div style="color: var(--color-text-tertiary); font-size: 12px">
+            [Y]es [N]o [A]lways [S]kip
+          </div>
+        </div>
+        <div class="tip-box">
+          <p>
+            Pressione <strong>Y</strong> para aprovar, <strong>N</strong> para
+            recusar, <strong>A</strong> para aprovar sempre esse tipo de ação,
+            ou <strong>S</strong> para pular.
+          </p>
+        </div>
       </div>
     </div>
 
@@ -315,10 +822,19 @@
     <div class="section" id="sec-github">
       <div class="section-header">
         <h2>Claude Code + GitHub</h2>
-        <p>O Claude Code entende Git nativamente — você pede em português e ele executa os comandos.</p>
+        <p>
+          O Claude Code entende Git nativamente — você pede em português e ele
+          executa os comandos.
+        </p>
       </div>
 
-      <div class="info-box"><p><strong>Como funciona:</strong> você não precisa lembrar os comandos Git. Basta descrever o que quer fazer. O Claude Code interpreta, executa os comandos corretos e mostra o resultado.</p></div>
+      <div class="info-box">
+        <p>
+          <strong>Como funciona:</strong> você não precisa lembrar os comandos
+          Git. Basta descrever o que quer fazer. O Claude Code interpreta,
+          executa os comandos corretos e mostra o resultado.
+        </p>
+      </div>
 
       <div class="step-block">
         <div class="step-label">Operações Git por conversa</div>
@@ -326,7 +842,9 @@
 
         <div class="cc-prompt-block">
           <div class="cc-label">commit</div>
-          <div class="cc-text">"Commita as mudanças que fiz com uma boa mensagem descritiva"</div>
+          <div class="cc-text">
+            "Commita as mudanças que fiz com uma boa mensagem descritiva"
+          </div>
         </div>
         <div class="cc-prompt-block">
           <div class="cc-label">push</div>
@@ -334,40 +852,66 @@
         </div>
         <div class="cc-prompt-block">
           <div class="cc-label">branch</div>
-          <div class="cc-text">"Cria uma branch chamada melhoria-animacoes e muda para ela"</div>
+          <div class="cc-text">
+            "Cria uma branch chamada melhoria-animacoes e muda para ela"
+          </div>
         </div>
         <div class="cc-prompt-block">
           <div class="cc-label">status</div>
-          <div class="cc-text">"O que mudou no projeto desde o último commit?"</div>
+          <div class="cc-text">
+            "O que mudou no projeto desde o último commit?"
+          </div>
         </div>
         <div class="cc-prompt-block">
           <div class="cc-label">histórico</div>
-          <div class="cc-text">"Mostra os últimos 5 commits com o que foi alterado em cada um"</div>
+          <div class="cc-text">
+            "Mostra os últimos 5 commits com o que foi alterado em cada um"
+          </div>
         </div>
         <div class="cc-prompt-block">
           <div class="cc-label">desfazer</div>
-          <div class="cc-text">"Desfaz a última alteração no arquivo style.css"</div>
+          <div class="cc-text">
+            "Desfaz a última alteração no arquivo style.css"
+          </div>
         </div>
       </div>
 
-      <hr class="divider">
+      <hr class="divider" />
 
       <div class="step-block">
         <div class="step-label">Configuração recomendada</div>
         <div class="step-title">Arquivo CLAUDE.md — a memória do projeto</div>
-        <div class="step-desc">O arquivo <code style="font-size:12px">CLAUDE.md</code> na raiz do projeto funciona como instruções permanentes para o Claude Code. Ele lê esse arquivo sempre que inicia.</div>
+        <div class="step-desc">
+          O arquivo <code style="font-size: 12px">CLAUDE.md</code> na raiz do
+          projeto funciona como instruções permanentes para o Claude Code. Ele
+          lê esse arquivo sempre que inicia.
+        </div>
 
         <div class="cc-prompt-block">
           <div class="cc-label">peça para o Claude Code criar</div>
-          <div class="cc-text">"Cria um arquivo CLAUDE.md com as instruções desse projeto: nome, tecnologias usadas, e que o repositório no GitHub é luizmariojs/nome-do-repo"</div>
+          <div class="cc-text">
+            "Cria um arquivo CLAUDE.md com as instruções desse projeto: nome,
+            tecnologias usadas, e que o repositório no GitHub é
+            luizmariojs/nome-do-repo"
+          </div>
         </div>
 
         <div class="cmd-block">
           <button class="copy-btn" onclick="copyCmd(this)">copiar</button>
-          <div class="cmd-line"><span class="prompt">%</span><span class="cmd-text">/init</span></div>
-          <div class="cmd-comment">Comando slash que gera o CLAUDE.md automaticamente</div>
+          <div class="cmd-line">
+            <span class="prompt">%</span><span class="cmd-text">/init</span>
+          </div>
+          <div class="cmd-comment">
+            Comando slash que gera o CLAUDE.md automaticamente
+          </div>
         </div>
-        <div class="tip-box"><p>Com o CLAUDE.md configurado, o Claude Code sabe o contexto do projeto sem você precisar explicar toda vez. Inclua linguagem, frameworks, convenções e informações do repositório.</p></div>
+        <div class="tip-box">
+          <p>
+            Com o CLAUDE.md configurado, o Claude Code sabe o contexto do
+            projeto sem você precisar explicar toda vez. Inclua linguagem,
+            frameworks, convenções e informações do repositório.
+          </p>
+        </div>
       </div>
     </div>
 
@@ -375,58 +919,107 @@
     <div class="section" id="sec-projeto">
       <div class="section-header">
         <h2>Subindo o guia Git para o GitHub</h2>
-        <p>Passo a passo para pegar o guia que criamos e publicar no GitHub usando o Claude Code.</p>
+        <p>
+          Passo a passo para pegar o guia que criamos e publicar no GitHub
+          usando o Claude Code.
+        </p>
       </div>
 
       <div class="steps-track">
         <div class="track-step">
-          <div class="track-left"><div class="track-num">1</div><div class="track-line"></div></div>
+          <div class="track-left">
+            <div class="track-num">1</div>
+            <div class="track-line"></div>
+          </div>
           <div class="track-content">
             <div class="track-title">Salve o guia como arquivo HTML</div>
-            <div class="step-desc">No chat do claude.ai, peça para salvar o guia como arquivo. Depois salve em uma pasta no Mac, por exemplo <code style="font-size:12px">~/projetos/guia-git</code>.</div>
+            <div class="step-desc">
+              No chat do claude.ai, peça para salvar o guia como arquivo. Depois
+              salve em uma pasta no Mac, por exemplo
+              <code style="font-size: 12px">~/projetos/guia-git</code>.
+            </div>
           </div>
         </div>
         <div class="track-step">
-          <div class="track-left"><div class="track-num">2</div><div class="track-line"></div></div>
+          <div class="track-left">
+            <div class="track-num">2</div>
+            <div class="track-line"></div>
+          </div>
           <div class="track-content">
             <div class="track-title">Crie o repositório no GitHub (vazio)</div>
-            <div class="step-desc">No GitHub: botão New → nome <code style="font-size:12px">guia-git-macos</code> → Create repository. Não marque nenhuma opção.</div>
+            <div class="step-desc">
+              No GitHub: botão New → nome
+              <code style="font-size: 12px">guia-git-macos</code> → Create
+              repository. Não marque nenhuma opção.
+            </div>
           </div>
         </div>
         <div class="track-step">
-          <div class="track-left"><div class="track-num">3</div><div class="track-line"></div></div>
+          <div class="track-left">
+            <div class="track-num">3</div>
+            <div class="track-line"></div>
+          </div>
           <div class="track-content">
             <div class="track-title">Entre na pasta e abra o Claude Code</div>
             <div class="cmd-block">
               <button class="copy-btn" onclick="copyCmd(this)">copiar</button>
-              <div class="cmd-line"><span class="prompt">%</span><span class="cmd-text">cd ~/projetos/guia-git</span></div>
+              <div class="cmd-line">
+                <span class="prompt">%</span
+                ><span class="cmd-text">cd ~/projetos/guia-git</span>
+              </div>
             </div>
             <div class="cmd-block">
               <button class="copy-btn" onclick="copyCmd(this)">copiar</button>
-              <div class="cmd-line"><span class="prompt">%</span><span class="cmd-text">claude</span></div>
+              <div class="cmd-line">
+                <span class="prompt">%</span
+                ><span class="cmd-text">claude</span>
+              </div>
             </div>
           </div>
         </div>
         <div class="track-step">
-          <div class="track-left"><div class="track-num">4</div><div class="track-line"></div></div>
+          <div class="track-left">
+            <div class="track-num">4</div>
+            <div class="track-line"></div>
+          </div>
           <div class="track-content">
-            <div class="track-title">Peça para o Claude Code publicar no GitHub</div>
+            <div class="track-title">
+              Peça para o Claude Code publicar no GitHub
+            </div>
             <div class="cc-prompt-block">
               <div class="cc-label">você digita no Claude Code</div>
-              <div class="cc-text">"Inicia o Git nessa pasta, conecta ao repositório git@github.com:luizmariojs/guia-git-macos.git e publica tudo no GitHub com a mensagem 'primeiro commit: guia de git'"</div>
+              <div class="cc-text">
+                "Inicia o Git nessa pasta, conecta ao repositório
+                git@github.com:luizmariojs/guia-git-macos.git e publica tudo no
+                GitHub com a mensagem 'primeiro commit: guia de git'"
+              </div>
             </div>
-            <div class="step-desc">O Claude Code vai executar o <code style="font-size:12px">git init</code>, <code style="font-size:12px">git add</code>, <code style="font-size:12px">git commit</code> e <code style="font-size:12px">git push</code> para você.</div>
+            <div class="step-desc">
+              O Claude Code vai executar o
+              <code style="font-size: 12px">git init</code>,
+              <code style="font-size: 12px">git add</code>,
+              <code style="font-size: 12px">git commit</code> e
+              <code style="font-size: 12px">git push</code> para você.
+            </div>
           </div>
         </div>
         <div class="track-step">
-          <div class="track-left"><div class="track-num">5</div><div class="track-line"></div></div>
+          <div class="track-left">
+            <div class="track-num">5</div>
+            <div class="track-line"></div>
+          </div>
           <div class="track-content">
             <div class="track-title">Confirme que funcionou</div>
             <div class="cc-prompt-block">
               <div class="cc-label">você digita</div>
               <div class="cc-text">"Mostra o status do repositório Git"</div>
             </div>
-            <div class="success-box"><p>Projeto publicado! O Claude Code cuidou de todos os comandos Git para você.</p></div>
+            <div class="success-box">
+              <p>
+                Projeto publicado! O Claude Code cuidou de todos os comandos Git
+                para você.
+              </p>
+            </div>
           </div>
         </div>
       </div>
@@ -436,7 +1029,10 @@
     <div class="section" id="sec-melhorias">
       <div class="section-header">
         <h2>Fazendo melhorias com Claude Code</h2>
-        <p>O fluxo completo para melhorar o guia e publicar as mudanças no GitHub.</p>
+        <p>
+          O fluxo completo para melhorar o guia e publicar as mudanças no
+          GitHub.
+        </p>
       </div>
 
       <div class="step-block">
@@ -444,64 +1040,126 @@
         <div class="step-title">Como funciona o ciclo de melhoria</div>
         <div class="steps-track">
           <div class="track-step">
-            <div class="track-left"><div class="track-num">1</div><div class="track-line"></div></div>
+            <div class="track-left">
+              <div class="track-num">1</div>
+              <div class="track-line"></div>
+            </div>
             <div class="track-content">
-              <div class="track-title">Entre no projeto e abra o Claude Code</div>
+              <div class="track-title">
+                Entre no projeto e abra o Claude Code
+              </div>
               <div class="cmd-block">
                 <button class="copy-btn" onclick="copyCmd(this)">copiar</button>
-                <div class="cmd-line"><span class="prompt">%</span><span class="cmd-text">cd ~/projetos/guia-git && claude</span></div>
+                <div class="cmd-line">
+                  <span class="prompt">%</span
+                  ><span class="cmd-text"
+                    >cd ~/projetos/guia-git && claude</span
+                  >
+                </div>
               </div>
             </div>
           </div>
           <div class="track-step">
-            <div class="track-left"><div class="track-num">2</div><div class="track-line"></div></div>
+            <div class="track-left">
+              <div class="track-num">2</div>
+              <div class="track-line"></div>
+            </div>
             <div class="track-content">
               <div class="track-title">Descreva a melhoria que quer fazer</div>
               <div class="cc-prompt-block">
                 <div class="cc-label">exemplos do que você pode pedir</div>
-                <div class="cc-text">"Adiciona uma nova seção sobre .gitignore com exemplos para projetos macOS"</div>
+                <div class="cc-text">
+                  "Adiciona uma nova seção sobre .gitignore com exemplos para
+                  projetos macOS"
+                </div>
               </div>
               <div class="cc-prompt-block">
-                <div class="cc-text">"Melhora o visual da seção de referência rápida com uma tabela mais organizada"</div>
+                <div class="cc-text">
+                  "Melhora o visual da seção de referência rápida com uma tabela
+                  mais organizada"
+                </div>
               </div>
               <div class="cc-prompt-block">
-                <div class="cc-text">"Adiciona exemplos práticos com outputs reais dos comandos"</div>
+                <div class="cc-text">
+                  "Adiciona exemplos práticos com outputs reais dos comandos"
+                </div>
               </div>
               <div class="cc-prompt-block">
-                <div class="cc-text">"Corrige qualquer erro de português no guia"</div>
+                <div class="cc-text">
+                  "Corrige qualquer erro de português no guia"
+                </div>
               </div>
             </div>
           </div>
           <div class="track-step">
-            <div class="track-left"><div class="track-num">3</div><div class="track-line"></div></div>
+            <div class="track-left">
+              <div class="track-num">3</div>
+              <div class="track-line"></div>
+            </div>
             <div class="track-content">
               <div class="track-title">Revise e aprove as mudanças</div>
-              <div class="step-desc">O Claude Code vai mostrar exatamente o que vai alterar no arquivo antes de salvar. Você pode aceitar, recusar ou pedir ajustes.</div>
+              <div class="step-desc">
+                O Claude Code vai mostrar exatamente o que vai alterar no
+                arquivo antes de salvar. Você pode aceitar, recusar ou pedir
+                ajustes.
+              </div>
             </div>
           </div>
           <div class="track-step">
-            <div class="track-left"><div class="track-num">4</div><div class="track-line"></div></div>
+            <div class="track-left">
+              <div class="track-num">4</div>
+              <div class="track-line"></div>
+            </div>
             <div class="track-content">
               <div class="track-title">Peça para commitar e publicar</div>
               <div class="cc-prompt-block">
                 <div class="cc-label">você digita</div>
-                <div class="cc-text">"Commita essas melhorias com uma mensagem descritiva e sobe para o GitHub"</div>
+                <div class="cc-text">
+                  "Commita essas melhorias com uma mensagem descritiva e sobe
+                  para o GitHub"
+                </div>
               </div>
-              <div class="step-desc">O Claude Code cria a mensagem de commit, faz o commit e o push — tudo em uma conversa.</div>
-              <div class="success-box"><p>Melhoria publicada no GitHub! Você pode repetir esse ciclo quantas vezes quiser.</p></div>
+              <div class="step-desc">
+                O Claude Code cria a mensagem de commit, faz o commit e o push —
+                tudo em uma conversa.
+              </div>
+              <div class="success-box">
+                <p>
+                  Melhoria publicada no GitHub! Você pode repetir esse ciclo
+                  quantas vezes quiser.
+                </p>
+              </div>
             </div>
           </div>
         </div>
       </div>
 
-      <hr class="divider">
+      <hr class="divider" />
 
       <div class="step-block">
         <div class="step-label">Boas práticas</div>
         <div class="step-title">Dicas para trabalhar bem com o Claude Code</div>
-        <div class="tip-box"><p><strong>Uma coisa por vez:</strong> peça uma melhoria de cada vez. Mudanças menores são mais fáceis de revisar e de desfazer se necessário.</p></div>
-        <div class="tip-box"><p><strong>Descreva o resultado:</strong> em vez de "muda o CSS", diga "quero que os títulos fiquem em verde e com mais espaço". O Claude Code interpreta melhor quando você é específico.</p></div>
-        <div class="tip-box"><p><strong>Peça uma branch:</strong> para mudanças grandes, peça "cria uma branch chamada nova-funcionalidade antes de editar". Assim o main fica seguro.</p></div>
+        <div class="tip-box">
+          <p>
+            <strong>Uma coisa por vez:</strong> peça uma melhoria de cada vez.
+            Mudanças menores são mais fáceis de revisar e de desfazer se
+            necessário.
+          </p>
+        </div>
+        <div class="tip-box">
+          <p>
+            <strong>Descreva o resultado:</strong> em vez de "muda o CSS", diga
+            "quero que os títulos fiquem em verde e com mais espaço". O Claude
+            Code interpreta melhor quando você é específico.
+          </p>
+        </div>
+        <div class="tip-box">
+          <p>
+            <strong>Peça uma branch:</strong> para mudanças grandes, peça "cria
+            uma branch chamada nova-funcionalidade antes de editar". Assim o
+            main fica seguro.
+          </p>
+        </div>
       </div>
     </div>
 
@@ -509,20 +1167,43 @@
     <div class="section" id="sec-slash">
       <div class="section-header">
         <h2>Comandos /slash</h2>
-        <p>Comandos especiais digitados dentro da sessão do Claude Code para controlar o comportamento.</p>
+        <p>
+          Comandos especiais digitados dentro da sessão do Claude Code para
+          controlar o comportamento.
+        </p>
       </div>
 
       <div class="step-block">
         <div class="step-label">Essenciais</div>
         <div class="step-title">Comandos do dia a dia</div>
         <table class="cmd-table">
-          <thead><tr><th>Comando</th><th>O que faz</th></tr></thead>
+          <thead>
+            <tr>
+              <th>Comando</th>
+              <th>O que faz</th>
+            </tr>
+          </thead>
           <tbody>
-            <tr><td>/help</td><td>Lista todos os comandos disponíveis</td></tr>
-            <tr><td>/init</td><td>Gera o arquivo CLAUDE.md com contexto do projeto</td></tr>
-            <tr><td>/clear</td><td>Limpa o contexto da conversa (começa do zero)</td></tr>
-            <tr><td>/compact</td><td>Compacta o histórico para economizar tokens</td></tr>
-            <tr><td>/exit</td><td>Encerra a sessão do Claude Code</td></tr>
+            <tr>
+              <td>/help</td>
+              <td>Lista todos os comandos disponíveis</td>
+            </tr>
+            <tr>
+              <td>/init</td>
+              <td>Gera o arquivo CLAUDE.md com contexto do projeto</td>
+            </tr>
+            <tr>
+              <td>/clear</td>
+              <td>Limpa o contexto da conversa (começa do zero)</td>
+            </tr>
+            <tr>
+              <td>/compact</td>
+              <td>Compacta o histórico para economizar tokens</td>
+            </tr>
+            <tr>
+              <td>/exit</td>
+              <td>Encerra a sessão do Claude Code</td>
+            </tr>
           </tbody>
         </table>
       </div>
@@ -531,13 +1212,33 @@
         <div class="step-label">Controle de sessão</div>
         <div class="step-title">Gerenciar a conversa</div>
         <table class="cmd-table">
-          <thead><tr><th>Comando</th><th>O que faz</th></tr></thead>
+          <thead>
+            <tr>
+              <th>Comando</th>
+              <th>O que faz</th>
+            </tr>
+          </thead>
           <tbody>
-            <tr><td>/undo</td><td>Desfaz a última ação do Claude Code</td></tr>
-            <tr><td>/rewind</td><td>Volta a conversa para um ponto anterior</td></tr>
-            <tr><td>/plan</td><td>Entra em modo de planejamento (sem executar)</td></tr>
-            <tr><td>/export</td><td>Exporta a conversa como texto</td></tr>
-            <tr><td>/cost</td><td>Mostra o custo de tokens da sessão atual</td></tr>
+            <tr>
+              <td>/undo</td>
+              <td>Desfaz a última ação do Claude Code</td>
+            </tr>
+            <tr>
+              <td>/rewind</td>
+              <td>Volta a conversa para um ponto anterior</td>
+            </tr>
+            <tr>
+              <td>/plan</td>
+              <td>Entra em modo de planejamento (sem executar)</td>
+            </tr>
+            <tr>
+              <td>/export</td>
+              <td>Exporta a conversa como texto</td>
+            </tr>
+            <tr>
+              <td>/cost</td>
+              <td>Mostra o custo de tokens da sessão atual</td>
+            </tr>
           </tbody>
         </table>
       </div>
@@ -546,11 +1247,25 @@
         <div class="step-label">Configuração</div>
         <div class="step-title">Personalizar o comportamento</div>
         <table class="cmd-table">
-          <thead><tr><th>Comando</th><th>O que faz</th></tr></thead>
+          <thead>
+            <tr>
+              <th>Comando</th>
+              <th>O que faz</th>
+            </tr>
+          </thead>
           <tbody>
-            <tr><td>/config</td><td>Abre o painel de configurações</td></tr>
-            <tr><td>/model</td><td>Troca o modelo (Sonnet, Opus, Haiku)</td></tr>
-            <tr><td>/doctor</td><td>Diagnóstico do ambiente</td></tr>
+            <tr>
+              <td>/config</td>
+              <td>Abre o painel de configurações</td>
+            </tr>
+            <tr>
+              <td>/model</td>
+              <td>Troca o modelo (Sonnet, Opus, Haiku)</td>
+            </tr>
+            <tr>
+              <td>/doctor</td>
+              <td>Diagnóstico do ambiente</td>
+            </tr>
           </tbody>
         </table>
       </div>
@@ -559,12 +1274,29 @@
         <div class="step-label">Atalhos de teclado</div>
         <div class="step-title">Dentro da sessão</div>
         <table class="cmd-table">
-          <thead><tr><th>Atalho</th><th>O que faz</th></tr></thead>
+          <thead>
+            <tr>
+              <th>Atalho</th>
+              <th>O que faz</th>
+            </tr>
+          </thead>
           <tbody>
-            <tr><td>Ctrl + C</td><td>Interrompe a ação atual</td></tr>
-            <tr><td>Ctrl + L</td><td>Limpa a tela</td></tr>
-            <tr><td>↑ / ↓</td><td>Navega pelo histórico de prompts</td></tr>
-            <tr><td>Shift + Enter</td><td>Quebra linha sem enviar</td></tr>
+            <tr>
+              <td>Ctrl + C</td>
+              <td>Interrompe a ação atual</td>
+            </tr>
+            <tr>
+              <td>Ctrl + L</td>
+              <td>Limpa a tela</td>
+            </tr>
+            <tr>
+              <td>↑ / ↓</td>
+              <td>Navega pelo histórico de prompts</td>
+            </tr>
+            <tr>
+              <td>Shift + Enter</td>
+              <td>Quebra linha sem enviar</td>
+            </tr>
           </tbody>
         </table>
       </div>
@@ -581,56 +1313,99 @@
         <div class="step-label">Prompts eficientes</div>
         <div class="step-title">Como pedir coisas ao Claude Code</div>
 
-        <div class="warn-box"><p><strong>Evite:</strong> "melhora o projeto" — muito vago, o Claude Code não sabe por onde começar.</p></div>
-        <div class="success-box"><p><strong>Prefira:</strong> "no arquivo index.html, melhora a seção do header adicionando uma barra de navegação com os links: Início, Sobre e Contato" — específico!</p></div>
+        <div class="warn-box">
+          <p>
+            <strong>Evite:</strong> "melhora o projeto" — muito vago, o Claude
+            Code não sabe por onde começar.
+          </p>
+        </div>
+        <div class="success-box">
+          <p>
+            <strong>Prefira:</strong> "no arquivo index.html, melhora a seção do
+            header adicionando uma barra de navegação com os links: Início,
+            Sobre e Contato" — específico!
+          </p>
+        </div>
 
-        <div class="cc-prompt-block" style="margin-top:12px">
+        <div class="cc-prompt-block" style="margin-top: 12px">
           <div class="cc-label">para entender o projeto</div>
-          <div class="cc-text">"Lê todos os arquivos e me dá um resumo do que esse projeto faz"</div>
+          <div class="cc-text">
+            "Lê todos os arquivos e me dá um resumo do que esse projeto faz"
+          </div>
         </div>
         <div class="cc-prompt-block">
           <div class="cc-label">para uma mudança visual</div>
-          <div class="cc-text">"No arquivo style.css, altera o esquema de cores para usar azul escuro (#1a2744) como cor primária"</div>
+          <div class="cc-text">
+            "No arquivo style.css, altera o esquema de cores para usar azul
+            escuro (#1a2744) como cor primária"
+          </div>
         </div>
         <div class="cc-prompt-block">
           <div class="cc-label">para revisão</div>
-          <div class="cc-text">"Revisa o código inteiro e me diz o que pode ser melhorado sem fazer nada ainda"</div>
+          <div class="cc-text">
+            "Revisa o código inteiro e me diz o que pode ser melhorado sem fazer
+            nada ainda"
+          </div>
         </div>
         <div class="cc-prompt-block">
           <div class="cc-label">para documentação</div>
-          <div class="cc-text">"Cria um README.md profissional em português para esse projeto"</div>
+          <div class="cc-text">
+            "Cria um README.md profissional em português para esse projeto"
+          </div>
         </div>
       </div>
 
-      <hr class="divider">
+      <hr class="divider" />
 
       <div class="step-block">
         <div class="step-label">Fluxo com branches</div>
         <div class="step-title">Trabalhar com segurança</div>
         <div class="cc-prompt-block">
           <div class="cc-label">fluxo recomendado para mudanças grandes</div>
-          <div class="cc-text">"Cria uma branch chamada redesign-header, faz as alterações e depois me mostra um resumo antes de commitar"</div>
+          <div class="cc-text">
+            "Cria uma branch chamada redesign-header, faz as alterações e depois
+            me mostra um resumo antes de commitar"
+          </div>
         </div>
-        <div class="tip-box"><p>Pedindo para trabalhar em uma branch, o main fica seguro. Se não gostar do resultado, é só deletar a branch.</p></div>
+        <div class="tip-box">
+          <p>
+            Pedindo para trabalhar em uma branch, o main fica seguro. Se não
+            gostar do resultado, é só deletar a branch.
+          </p>
+        </div>
       </div>
 
-      <hr class="divider">
+      <hr class="divider" />
 
       <div class="step-block">
         <div class="step-label">CLAUDE.md</div>
         <div class="step-title">Exemplo de CLAUDE.md para o guia Git</div>
         <div class="cmd-block">
-          <div class="cmd-line" style="flex-direction:column;gap:2px">
-            <span class="cmd-text" style="color:var(--color-text-tertiary)"># Guia Git para macOS</span>
+          <div class="cmd-line" style="flex-direction: column; gap: 2px">
+            <span class="cmd-text" style="color: var(--color-text-tertiary)"
+              ># Guia Git para macOS</span
+            >
             <span class="cmd-text"> </span>
-            <span class="cmd-text" style="color:var(--color-text-tertiary)">## Sobre o projeto</span>
-            <span class="cmd-text">Guia interativo de Git e GitHub para usuários macOS.</span>
-            <span class="cmd-text">Arquivo único HTML com CSS e JS embutidos.</span>
+            <span class="cmd-text" style="color: var(--color-text-tertiary)"
+              >## Sobre o projeto</span
+            >
+            <span class="cmd-text"
+              >Guia interativo de Git e GitHub para usuários macOS.</span
+            >
+            <span class="cmd-text"
+              >Arquivo único HTML com CSS e JS embutidos.</span
+            >
             <span class="cmd-text"> </span>
-            <span class="cmd-text" style="color:var(--color-text-tertiary)">## Repositório</span>
-            <span class="cmd-text">git@github.com:luizmariojs/guia-git-macos.git</span>
+            <span class="cmd-text" style="color: var(--color-text-tertiary)"
+              >## Repositório</span
+            >
+            <span class="cmd-text"
+              >git@github.com:luizmariojs/guia-git-macos.git</span
+            >
             <span class="cmd-text"> </span>
-            <span class="cmd-text" style="color:var(--color-text-tertiary)">## Convenções</span>
+            <span class="cmd-text" style="color: var(--color-text-tertiary)"
+              >## Convenções</span
+            >
             <span class="cmd-text">- Idioma: português brasileiro</span>
             <span class="cmd-text">- Commits em português</span>
             <span class="cmd-text">- Sempre testar antes de commitar</span>
@@ -646,72 +1421,182 @@
         <p>Todos os comandos de terminal e slash commands em um lugar.</p>
       </div>
 
-      <div class="step-label" style="margin-bottom:8px">Comandos de terminal</div>
+      <div class="step-label" style="margin-bottom: 8px">
+        Comandos de terminal
+      </div>
       <table class="cmd-table">
-        <thead><tr><th>Comando</th><th>O que faz</th></tr></thead>
+        <thead>
+          <tr>
+            <th>Comando</th>
+            <th>O que faz</th>
+          </tr>
+        </thead>
         <tbody>
-          <tr><td>claude</td><td>Inicia sessão interativa na pasta atual</td></tr>
-          <tr><td>claude "texto"</td><td>Inicia já com um prompt</td></tr>
-          <tr><td>claude -p "texto"</td><td>Modo não-interativo — responde e sai</td></tr>
-          <tr><td>claude -c</td><td>Retoma a última conversa</td></tr>
-          <tr><td>claude update</td><td>Atualiza para a versão mais recente</td></tr>
-          <tr><td>claude auth login</td><td>Faz login com a conta Anthropic</td></tr>
-          <tr><td>claude auth status</td><td>Verifica se está autenticado</td></tr>
-          <tr><td>claude auth logout</td><td>Sai da conta</td></tr>
-          <tr><td>claude --version</td><td>Mostra a versão instalada</td></tr>
+          <tr>
+            <td>claude</td>
+            <td>Inicia sessão interativa na pasta atual</td>
+          </tr>
+          <tr>
+            <td>claude "texto"</td>
+            <td>Inicia já com um prompt</td>
+          </tr>
+          <tr>
+            <td>claude -p "texto"</td>
+            <td>Modo não-interativo — responde e sai</td>
+          </tr>
+          <tr>
+            <td>claude -c</td>
+            <td>Retoma a última conversa</td>
+          </tr>
+          <tr>
+            <td>claude update</td>
+            <td>Atualiza para a versão mais recente</td>
+          </tr>
+          <tr>
+            <td>claude auth login</td>
+            <td>Faz login com a conta Anthropic</td>
+          </tr>
+          <tr>
+            <td>claude auth status</td>
+            <td>Verifica se está autenticado</td>
+          </tr>
+          <tr>
+            <td>claude auth logout</td>
+            <td>Sai da conta</td>
+          </tr>
+          <tr>
+            <td>claude --version</td>
+            <td>Mostra a versão instalada</td>
+          </tr>
         </tbody>
       </table>
 
-      <div class="step-label" style="margin-bottom:8px;margin-top:1rem">Slash commands (dentro da sessão)</div>
+      <div class="step-label" style="margin-bottom: 8px; margin-top: 1rem">
+        Slash commands (dentro da sessão)
+      </div>
       <table class="cmd-table">
-        <thead><tr><th>Comando</th><th>O que faz</th></tr></thead>
+        <thead>
+          <tr>
+            <th>Comando</th>
+            <th>O que faz</th>
+          </tr>
+        </thead>
         <tbody>
-          <tr><td>/init</td><td>Gera CLAUDE.md com contexto do projeto</td></tr>
-          <tr><td>/help</td><td>Lista todos os comandos</td></tr>
-          <tr><td>/clear</td><td>Reinicia o contexto da conversa</td></tr>
-          <tr><td>/compact</td><td>Compacta histórico (economiza tokens)</td></tr>
-          <tr><td>/plan</td><td>Modo planejamento sem executar ações</td></tr>
-          <tr><td>/undo</td><td>Desfaz a última ação</td></tr>
-          <tr><td>/rewind</td><td>Volta a sessão para um ponto anterior</td></tr>
-          <tr><td>/model</td><td>Troca o modelo de IA</td></tr>
-          <tr><td>/cost</td><td>Mostra uso de tokens da sessão</td></tr>
-          <tr><td>/exit</td><td>Encerra o Claude Code</td></tr>
+          <tr>
+            <td>/init</td>
+            <td>Gera CLAUDE.md com contexto do projeto</td>
+          </tr>
+          <tr>
+            <td>/help</td>
+            <td>Lista todos os comandos</td>
+          </tr>
+          <tr>
+            <td>/clear</td>
+            <td>Reinicia o contexto da conversa</td>
+          </tr>
+          <tr>
+            <td>/compact</td>
+            <td>Compacta histórico (economiza tokens)</td>
+          </tr>
+          <tr>
+            <td>/plan</td>
+            <td>Modo planejamento sem executar ações</td>
+          </tr>
+          <tr>
+            <td>/undo</td>
+            <td>Desfaz a última ação</td>
+          </tr>
+          <tr>
+            <td>/rewind</td>
+            <td>Volta a sessão para um ponto anterior</td>
+          </tr>
+          <tr>
+            <td>/model</td>
+            <td>Troca o modelo de IA</td>
+          </tr>
+          <tr>
+            <td>/cost</td>
+            <td>Mostra uso de tokens da sessão</td>
+          </tr>
+          <tr>
+            <td>/exit</td>
+            <td>Encerra o Claude Code</td>
+          </tr>
         </tbody>
       </table>
 
-      <div class="step-label" style="margin-bottom:8px;margin-top:1rem">Git pelo Claude Code — o que você fala</div>
+      <div class="step-label" style="margin-bottom: 8px; margin-top: 1rem">
+        Git pelo Claude Code — o que você fala
+      </div>
       <table class="cmd-table">
-        <thead><tr><th>Você diz</th><th>Claude Code faz</th></tr></thead>
+        <thead>
+          <tr>
+            <th>Você diz</th>
+            <th>Claude Code faz</th>
+          </tr>
+        </thead>
         <tbody>
-          <tr><td>"commita as mudanças"</td><td>git add + git commit com mensagem gerada</td></tr>
-          <tr><td>"sobe para o GitHub"</td><td>git push origin main</td></tr>
-          <tr><td>"cria uma branch X"</td><td>git switch -c X</td></tr>
-          <tr><td>"o que mudou?"</td><td>git status + git diff</td></tr>
-          <tr><td>"mostra o histórico"</td><td>git log --oneline</td></tr>
-          <tr><td>"desfaz a última mudança"</td><td>git restore ou git reset conforme o caso</td></tr>
+          <tr>
+            <td>"commita as mudanças"</td>
+            <td>git add + git commit com mensagem gerada</td>
+          </tr>
+          <tr>
+            <td>"sobe para o GitHub"</td>
+            <td>git push origin main</td>
+          </tr>
+          <tr>
+            <td>"cria uma branch X"</td>
+            <td>git switch -c X</td>
+          </tr>
+          <tr>
+            <td>"o que mudou?"</td>
+            <td>git status + git diff</td>
+          </tr>
+          <tr>
+            <td>"mostra o histórico"</td>
+            <td>git log --oneline</td>
+          </tr>
+          <tr>
+            <td>"desfaz a última mudança"</td>
+            <td>git restore ou git reset conforme o caso</td>
+          </tr>
         </tbody>
       </table>
     </div>
-
   </main>
 </div>
 
 <script>
-function show(id) {
-  document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
-  document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
-  document.getElementById('sec-' + id).classList.add('active');
-  const map = ['intro','install','primeiros','github','projeto','melhorias','slash','dicas','ref'];
-  const idx = map.indexOf(id);
-  if (idx >= 0) document.querySelectorAll('.nav-item')[idx].classList.add('active');
-}
-function copyCmd(btn) {
-  const block = btn.closest('.cmd-block');
-  const el = block.querySelector('.cmd-text');
-  if (!el) return;
-  navigator.clipboard.writeText(el.textContent.trim()).then(() => {
-    btn.textContent = 'copiado!';
-    setTimeout(() => btn.textContent = 'copiar', 1500);
-  });
-}
+  function show(id) {
+    document
+      .querySelectorAll(".section")
+      .forEach((s) => s.classList.remove("active"));
+    document
+      .querySelectorAll(".nav-item")
+      .forEach((n) => n.classList.remove("active"));
+    document.getElementById("sec-" + id).classList.add("active");
+    const map = [
+      "intro",
+      "install",
+      "primeiros",
+      "github",
+      "projeto",
+      "melhorias",
+      "slash",
+      "dicas",
+      "ref",
+    ];
+    const idx = map.indexOf(id);
+    if (idx >= 0)
+      document.querySelectorAll(".nav-item")[idx].classList.add("active");
+  }
+  function copyCmd(btn) {
+    const block = btn.closest(".cmd-block");
+    const el = block.querySelector(".cmd-text");
+    if (!el) return;
+    navigator.clipboard.writeText(el.textContent.trim()).then(() => {
+      btn.textContent = "copiado!";
+      setTimeout(() => (btn.textContent = "copiar"), 1500);
+    });
+  }
 </script>

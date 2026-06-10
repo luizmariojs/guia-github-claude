@@ -479,7 +479,15 @@
 <div class="guide">
   <nav class="sidebar">
     <div class="sidebar-title">Seções</div>
-    <div class="nav-item active" onclick="show('install')">
+    <div class="nav-item active" onclick="show('fastuse')">
+      <i class="ti ti-bolt" aria-hidden="true"></i> Início rápido
+      <span class="nav-new">novo</span>
+    </div>
+    <div class="nav-item" onclick="show('comparisons')">
+      <i class="ti ti-arrows-diff" aria-hidden="true"></i> Comandos similares
+      <span class="nav-new">novo</span>
+    </div>
+    <div class="nav-item" onclick="show('install')">
       <i class="ti ti-download" aria-hidden="true"></i> Instalação
     </div>
     <div class="nav-item" onclick="show('config')">
@@ -521,8 +529,382 @@
   </nav>
 
   <main class="content">
+    <!-- INÍCIO RÁPIDO -->
+    <div class="section active" id="sec-fastuse">
+      <div class="section-header">
+        <h2>Início rápido</h2>
+        <p>
+          O fluxo do dia a dia em linguagem direta. Nada de instalar ou configurar — só o que você usa toda vez que vai trabalhar.
+        </p>
+      </div>
+
+      <div class="warn-box">
+        <p>
+          <strong>git init: só uma vez por projeto.</strong> Ele cria o repositório Git na pasta. Se você já rodou antes, não precisa rodar de novo — nunca. Para confirmar que a pasta já é um repo, rode <code style="font-size:11px">git status</code>. Se aparecer informações sobre branch e arquivos, já está pronto.
+        </p>
+      </div>
+
+      <div class="step-block">
+        <div class="step-label">Antes de começar a trabalhar</div>
+        <div class="step-title">Sequência de abertura do projeto</div>
+        <div class="step-desc">
+          Sempre que for trabalhar no projeto — seja hoje, amanhã ou daqui a uma semana — o fluxo de entrada é este:
+        </div>
+        <div class="cmd-block">
+          <button class="copy-btn" onclick="copyCmd(this)">copiar</button>
+          <div class="cmd-line">
+            <span class="prompt">%</span
+            ><span class="cmd-text">cd nome-do-projeto</span>
+          </div>
+          <div class="cmd-comment">Entra na pasta do projeto</div>
+        </div>
+        <div class="cmd-block">
+          <button class="copy-btn" onclick="copyCmd(this)">copiar</button>
+          <div class="cmd-line">
+            <span class="prompt">%</span
+            ><span class="cmd-text">git pull</span>
+          </div>
+          <div class="cmd-comment">Baixa tudo que há de novo no GitHub antes de começar</div>
+        </div>
+        <div class="cmd-block">
+          <button class="copy-btn" onclick="copyCmd(this)">copiar</button>
+          <div class="cmd-line">
+            <span class="prompt">%</span
+            ><span class="cmd-text">code .</span>
+          </div>
+          <div class="cmd-comment">Abre o VS Code na pasta atual</div>
+        </div>
+        <div class="tip-box">
+          <p>
+            <strong>Sem git init.</strong> Sem git status antes do pull. Só <code style="font-size:11px">cd</code> → <code style="font-size:11px">git pull</code> → <code style="font-size:11px">code .</code> — e você já pode trabalhar.
+          </p>
+        </div>
+      </div>
+
+      <hr class="divider" />
+
+      <div class="step-block">
+        <div class="step-label">Durante o trabalho</div>
+        <div class="step-title">O ciclo que se repete o dia inteiro</div>
+        <div class="step-desc">
+          Faça isso quantas vezes quiser no dia. Cada commit é um ponto de salvamento no histórico.
+        </div>
+        <div class="cmd-block">
+          <button class="copy-btn" onclick="copyCmd(this)">copiar</button>
+          <div class="cmd-line">
+            <span class="prompt">%</span
+            ><span class="cmd-text">git status</span>
+          </div>
+          <div class="cmd-comment">Veja o que mudou desde o último commit</div>
+        </div>
+        <div class="cmd-block">
+          <button class="copy-btn" onclick="copyCmd(this)">copiar</button>
+          <div class="cmd-line">
+            <span class="prompt">%</span
+            ><span class="cmd-text">git add .</span>
+          </div>
+          <div class="cmd-comment">Prepara todas as mudanças para o commit</div>
+        </div>
+        <div class="cmd-block">
+          <button class="copy-btn" onclick="copyCmd(this)">copiar</button>
+          <div class="cmd-line">
+            <span class="prompt">%</span
+            ><span class="cmd-text">git commit -m "feat: descrição clara do que fez"</span>
+          </div>
+          <div class="cmd-comment">Salva no histórico local com uma mensagem descritiva</div>
+        </div>
+        <div class="cmd-block">
+          <button class="copy-btn" onclick="copyCmd(this)">copiar</button>
+          <div class="cmd-line">
+            <span class="prompt">%</span
+            ><span class="cmd-text">git push</span>
+          </div>
+          <div class="cmd-comment">Envia para o GitHub</div>
+        </div>
+      </div>
+
+      <hr class="divider" />
+
+      <div class="step-block">
+        <div class="step-label">Resumo visual</div>
+        <div class="step-title">O fluxo completo em uma linha</div>
+        <table class="cmd-table">
+          <thead>
+            <tr>
+              <th>Momento</th>
+              <th>Comando</th>
+              <th>Por quê</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Abrir o projeto</td>
+              <td><code style="font-size:11px">git pull</code></td>
+              <td>Sincroniza com o GitHub antes de qualquer coisa</td>
+            </tr>
+            <tr>
+              <td>Verificar estado</td>
+              <td><code style="font-size:11px">git status</code></td>
+              <td>Vê o que mudou e o que está no stage</td>
+            </tr>
+            <tr>
+              <td>Preparar mudanças</td>
+              <td><code style="font-size:11px">git add .</code></td>
+              <td>Move as mudanças para a staging area</td>
+            </tr>
+            <tr>
+              <td>Salvar no histórico</td>
+              <td><code style="font-size:11px">git commit -m "msg"</code></td>
+              <td>Cria o ponto de salvamento local</td>
+            </tr>
+            <tr>
+              <td>Publicar</td>
+              <td><code style="font-size:11px">git push</code></td>
+              <td>Envia os commits para o GitHub</td>
+            </tr>
+          </tbody>
+        </table>
+        <div class="success-box">
+          <p>
+            <strong>Regra de ouro:</strong> <code style="font-size:11px">git pull</code> ao abrir. <code style="font-size:11px">git push</code> ao fechar. Commits pequenos e frequentes no meio.
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <!-- COMANDOS SIMILARES -->
+    <div class="section" id="sec-comparisons">
+      <div class="section-header">
+        <h2>Comandos similares — qual usar?</h2>
+        <p>
+          Git tem vários comandos que parecem fazer a mesma coisa. Aqui estão as diferenças que realmente importam no dia a dia.
+        </p>
+      </div>
+
+      <div class="step-block">
+        <div class="step-label">Adicionar ao stage</div>
+        <div class="step-title">git add . vs git add -A vs git add arquivo</div>
+        <table class="cmd-table">
+          <thead>
+            <tr>
+              <th>Comando</th>
+              <th>O que faz</th>
+              <th>Quando usar</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>git add .</td>
+              <td>Adiciona tudo a partir da pasta atual</td>
+              <td>Uso geral — funciona perfeitamente se você está na raiz do projeto</td>
+            </tr>
+            <tr>
+              <td>git add -A</td>
+              <td>Adiciona tudo no repositório inteiro, independente de onde você está no terminal</td>
+              <td>Projetos com estrutura de pastas complexa onde você pode estar numa subpasta</td>
+            </tr>
+            <tr>
+              <td>git add arquivo.txt</td>
+              <td>Adiciona só aquele arquivo específico</td>
+              <td>Quando quer commitar mudanças de um arquivo sem levar as outras</td>
+            </tr>
+            <tr>
+              <td>git add -p</td>
+              <td>Modo interativo — você aprova trecho por trecho de cada arquivo</td>
+              <td>Um arquivo tem duas mudanças não relacionadas e você quer commitar só uma</td>
+            </tr>
+          </tbody>
+        </table>
+        <div class="tip-box">
+          <p>
+            <strong>Na prática:</strong> se você sempre roda os comandos da raiz do projeto — o que é o normal — <code style="font-size:11px">git add .</code> e <code style="font-size:11px">git add -A</code> são equivalentes. Use <code style="font-size:11px">git add .</code> no dia a dia.
+          </p>
+        </div>
+      </div>
+
+      <hr class="divider" />
+
+      <div class="step-block">
+        <div class="step-label">Baixar mudanças</div>
+        <div class="step-title">git pull vs git fetch</div>
+        <table class="cmd-table">
+          <thead>
+            <tr>
+              <th>Comando</th>
+              <th>O que faz</th>
+              <th>Quando usar</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>git pull</td>
+              <td>Baixa as mudanças do GitHub E aplica no seu código imediatamente (<code style="font-size:11px">fetch</code> + <code style="font-size:11px">merge</code> em um comando)</td>
+              <td>No início de toda sessão de trabalho — é o uso mais comum</td>
+            </tr>
+            <tr>
+              <td>git fetch</td>
+              <td>Baixa as mudanças mas <strong>não aplica</strong> — fica guardado esperando você decidir</td>
+              <td>Quando quer ver o que mudou no GitHub antes de decidir se aplica. Útil em times grandes antes de um merge delicado.</td>
+            </tr>
+          </tbody>
+        </table>
+        <div class="tip-box">
+          <p>
+            Após um <code style="font-size:11px">git fetch</code>, você pode rodar <code style="font-size:11px">git log origin/main</code> para ver os commits que vieram, e depois <code style="font-size:11px">git merge origin/main</code> para aplicar. Mas no dia a dia, <code style="font-size:11px">git pull</code> faz tudo isso de uma vez.
+          </p>
+        </div>
+      </div>
+
+      <hr class="divider" />
+
+      <div class="step-block">
+        <div class="step-label">Mesclar branches</div>
+        <div class="step-title">git merge vs git rebase</div>
+        <table class="cmd-table">
+          <thead>
+            <tr>
+              <th>Comando</th>
+              <th>O que faz</th>
+              <th>Resultado no histórico</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>git merge</td>
+              <td>Integra as mudanças criando um commit de merge. Preserva o histórico exato — quando cada coisa aconteceu.</td>
+              <td>Histórico fiel à realidade, com bifurcações visíveis</td>
+            </tr>
+            <tr>
+              <td>git rebase</td>
+              <td>Reescreve seus commits como se tivessem sido feitos em cima da outra branch. Histórico mais linear e limpo.</td>
+              <td>Histórico linear, sem bifurcações — parece que tudo foi feito em sequência</td>
+            </tr>
+          </tbody>
+        </table>
+        <div class="warn-box">
+          <p>
+            <strong>Regra de ouro do rebase:</strong> nunca use <code style="font-size:11px">git rebase</code> em branches compartilhadas com outras pessoas — ele reescreve o histórico e causa conflitos sérios para quem já tem os commits. Use rebase só em branches locais suas. Para quem está começando: use <code style="font-size:11px">git merge</code> sempre.
+          </p>
+        </div>
+      </div>
+
+      <hr class="divider" />
+
+      <div class="step-block">
+        <div class="step-label">Desfazer commits</div>
+        <div class="step-title">git reset --soft vs --mixed vs --hard</div>
+        <table class="cmd-table">
+          <thead>
+            <tr>
+              <th>Comando</th>
+              <th>Desfaz o commit?</th>
+              <th>O que acontece com as mudanças?</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>git reset --soft HEAD~1</td>
+              <td>Sim</td>
+              <td>As mudanças ficam no <strong>stage</strong> — prontas para um novo commit</td>
+            </tr>
+            <tr>
+              <td>git reset --mixed HEAD~1</td>
+              <td>Sim</td>
+              <td>As mudanças ficam nos arquivos mas saem do stage — você precisa fazer add de novo</td>
+            </tr>
+            <tr>
+              <td>git reset --hard HEAD~1</td>
+              <td>Sim</td>
+              <td>As mudanças são <strong>descartadas</strong> — os arquivos voltam ao estado do commit anterior. Irreversível.</td>
+            </tr>
+          </tbody>
+        </table>
+        <div class="warn-box">
+          <p>
+            <strong>--hard é destrutivo.</strong> Código não commitado desaparece para sempre. Use <code style="font-size:11px">--soft</code> quando quiser desfazer o commit mas guardar o trabalho.
+          </p>
+        </div>
+      </div>
+
+      <hr class="divider" />
+
+      <div class="step-block">
+        <div class="step-label">Trocar de branch</div>
+        <div class="step-title">git switch vs git checkout</div>
+        <table class="cmd-table">
+          <thead>
+            <tr>
+              <th>Comando</th>
+              <th>O que faz</th>
+              <th>Status</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>git switch nome</td>
+              <td>Troca de branch</td>
+              <td><span class="badge badge-green">Moderno — prefira este</span></td>
+            </tr>
+            <tr>
+              <td>git switch -c nome</td>
+              <td>Cria e troca de branch</td>
+              <td><span class="badge badge-green">Moderno — prefira este</span></td>
+            </tr>
+            <tr>
+              <td>git checkout nome</td>
+              <td>Troca de branch (e outras coisas)</td>
+              <td><span class="badge badge-amber">Legado — ainda funciona</span></td>
+            </tr>
+            <tr>
+              <td>git checkout -b nome</td>
+              <td>Cria e troca de branch</td>
+              <td><span class="badge badge-amber">Legado — ainda funciona</span></td>
+            </tr>
+          </tbody>
+        </table>
+        <div class="tip-box">
+          <p>
+            <code style="font-size:11px">git checkout</code> era o comando antigo que fazia tudo: trocava branch, restaurava arquivos, criava branches... Justamente por fazer demais, o Git criou <code style="font-size:11px">git switch</code> (só branches) e <code style="font-size:11px">git restore</code> (só arquivos). São mais claros e explícitos. Você vai ver muito <code style="font-size:11px">checkout</code> em tutoriais antigos — funciona, mas o <code style="font-size:11px">switch</code> é o caminho atual.
+          </p>
+        </div>
+      </div>
+
+      <hr class="divider" />
+
+      <div class="step-block">
+        <div class="step-label">Reverter mudanças</div>
+        <div class="step-title">git revert vs git reset</div>
+        <table class="cmd-table">
+          <thead>
+            <tr>
+              <th>Comando</th>
+              <th>O que faz</th>
+              <th>Quando usar</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>git revert HEAD</td>
+              <td>Cria um <strong>novo commit</strong> que desfaz o anterior. O histórico original é preservado.</td>
+              <td>Branches compartilhadas, código já publicado no GitHub — é a forma segura</td>
+            </tr>
+            <tr>
+              <td>git reset HEAD~1</td>
+              <td><strong>Apaga</strong> o commit do histórico, como se nunca tivesse existido.</td>
+              <td>Branches locais, commits que ainda não foram para o GitHub</td>
+            </tr>
+          </tbody>
+        </table>
+        <div class="tip-box">
+          <p>
+            Regra simples: se o commit <strong>já foi para o GitHub</strong>, use <code style="font-size:11px">git revert</code>. Se ainda está só na sua máquina, pode usar <code style="font-size:11px">git reset</code>.
+          </p>
+        </div>
+      </div>
+    </div>
+
     <!-- INSTALAÇÃO -->
-    <div class="section active" id="sec-install">
+    <div class="section" id="sec-install">
       <div class="section-header">
         <h2>Instalação no macOS</h2>
         <p>
@@ -1191,7 +1573,7 @@
       <!-- NOTA: comandos do treinamento Javanauta -->
       <div class="step-block">
         <div class="step-label">Do Treinamento</div>
-        <div class="step-title">Fluxo do zero ao repositório — estilo Javanauta</div>
+        <div class="step-title">Fluxo do zero ao repositório — estilo Aulão da Javanauta</div>
         <div class="step-desc">
           O treinamento usa um fluxo simplificado e direto ao ponto, ótimo para
           quem está começando. Os comandos abaixo seguem exatamente o que foi
@@ -1305,7 +1687,6 @@
           </div>
           <div class="cmd-comment">Mostra diferenças em arquivos staged</div>
         </div>
-      </div>
       <hr class="divider" />
       <div class="step-block">
         <div class="step-label">Staging</div>
@@ -1398,8 +1779,7 @@
           </p>
         </div>
       </div>
-    </div>
-
+      </div>
     <!-- BRANCHES -->
     <div class="section" id="sec-branches">
       <div class="section-header">
@@ -2460,6 +2840,9 @@
     </div>
   </main>
 </div>
+    </div>
+
+
 
 <script>
   function show(id) {
@@ -2471,6 +2854,8 @@
       .forEach((n) => n.classList.remove("active"));
     document.getElementById("sec-" + id).classList.add("active");
     const map = [
+      "fastuse",
+      "comparisons",
       "install",
       "config",
       "fluxos",
